@@ -1,0 +1,80 @@
+
+/* The container */
+.cbox-container {
+  display: inline-flex;
+  align-items: flex-end;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  margin-left: -10px;
+  cursor: pointer;
+  font-size: 22px;
+  height: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  &.empty-list {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.cbox-lbl-txt {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Hide the browser's default checkbox */
+.cbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.cbox-checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: $white;
+  border: 1px solid $java;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px $java;
+}
+
+/* On mouse-over, add a grey background color */
+.cbox-container:hover input ~ .cbox-checkmark {
+  background-color: $polar;
+}
+
+/* When the checkbox is checked, add a blue background */
+.cbox-container input:checked ~ .cbox-checkmark {
+  background-color: $white;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.cbox-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.cbox-container input:checked ~ .cbox-checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.cbox-container .cbox-checkmark:after {
+  left: 2px;
+  top: -2px;
+  font-weight: 600;
+  color: $java;
+  content: '\2713';
+  font-size: 16px;
+}

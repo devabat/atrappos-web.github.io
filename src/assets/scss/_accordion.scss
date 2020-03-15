@@ -1,0 +1,59 @@
+.accordion {
+  &--polyline {
+    margin: 5px 0 20px 0;
+  }
+  &--marker {
+    margin: 0 0 30px 0;
+  }
+  .card {
+    cursor: pointer;
+    border: 0;
+    border-radius: .25rem;
+    overflow: initial !important;
+    &-header {
+      padding: 5px 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 500;
+      color: $white;
+      border-radius: calc(.25rem - 1px) !important;
+      border: 0;
+      margin-top: -1px;
+      margin-left: -1px;
+      width: calc(100% + 1px);
+      &:hover {
+        opacity: 0.8;
+      }
+
+      i {
+        margin-left: 10px;
+      }
+    }
+
+    .card-body {
+      padding: 20px 10px 10px 10px !important;
+      display: flex;
+      flex-direction: column;
+      background-color: #fafafa;
+      border-bottom-left-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,.25) !important;
+      -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.25) !important;
+    }
+
+    &--polyline {
+      //border: 1px solid $tonys-pink;
+     .card-header {
+        background-color: $tonys-pink;
+      }
+
+    }
+    &--marker {
+      //border: 1px solid $fountain-blue;
+      .card-header {
+        background-color: $fountain-blue;
+      }
+    }
+  }
+}

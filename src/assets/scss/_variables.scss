@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css?family=Spartan:400,500,600,700&display=swap');
+
+/* Colors */
+
+$white: #ffffff;
+/* Paths */
+/* other */
+$crimson: #E11E13;
+/* stairs */
+$carrot-orange: #F18A23;
+/* uphill */
+$electric-violet: #552AFF;
+/* works */
+$pear: #C4D92D;
+/* soil */
+$lavender: #CD3CDD;
+/* road */
+$silver-tree: #65B687;
+/* broken */
+$violet-red: #F42688;
+
+/* Categories */
+/* Urban */
+$hurricane: #958383;
+/* Industrial */
+$brown-rust: #B55936;
+/* Market - shops */
+$rum: #6B5582;
+/* Entertainment */
+$tapestry: #AD5C92;
+/* Alley */
+$driftwood: #AE8247;
+/* Park - garden */
+$hippie-green: #588B50;
+/* Historical */
+$faded-jade: #3E7975;
+/* Sea View */
+$horizon: #5E82A6;
+/* Other */
+$coral-tree: #A65E61;
+
+
+/* radio bg */
+$gallery: #eeeeee;
+
+/* radio bg hover */
+$silver: #cccccc;
+
+$mariner: #2A81CB;
+$shark: #1E2024;
+$blush: #b53e74;
+$can-can: #d88daf;
+$ocean-green: #3d9c72;
+$vista-blue: #7ECDAA;
+
+$other-clr: $crimson;
+$stairs-clr: $carrot-orange;
+$uphill-clr: $electric-violet;
+$works-clr: $pear;
+$soil-clr: $lavender;
+$road-clr: $silver-tree;
+$broken-clr: $violet-red;
+$radio-bg: $gallery;
+$radio-bg-hover: $silver;
+
+
+$eastern-blue: #19869a;
+$java: #20adc5;
+$mischka: #E6E5E8;
+$spun-pearl: #B1AEB7;
+$shark: #25272C;
+$terracotta: #df7153;
+$tonys-pink: #e7957e;
+$glacier: #6eaec4;
+$steel-blue: #4a9ab5;
+$oriental-pink: #c38d9e;
+$turkish-rose: #b9798d;
+$rodeo-dust: #caaa9b;
+$brandi-rose: #B98D79;
+$calypso: #387d94;
+$sunglo: #e26060;
+$valencia: #db3d3d;
+$keppel: #41B3A3;
+$fountain-blue: #56c2b4;
+$prim: #eddee3;
+$wisp-pink: #fde8ef;
+$crimson: #CE1253;
+$polar: #e9f9fb;
+$sirocco: #6D7778;
+$skeptic: #C4E4CA;
+$killarney: #305A38;
+$dust-storm: #E4C4C6;
+$buccaneer: #5A3033;
+$wild-sand: #f6f6f6;
+
+
+
+/* MIXINS */
+
+@mixin action-btn-mixin($bg, $activeBg) {
+  background-color: $bg;
+  border-color: $bg;
+  &:focus {
+    background-color: $bg;
+    border-color: $bg;
+  }
+  &:active {
+    background-color: $activeBg !important;
+    border-color: $activeBg !important;
+  }
+}
