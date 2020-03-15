@@ -163,7 +163,7 @@ const PathsActions =(props)=> {
                                                                 <FontAwesomeIcon icon={faTools}/>
                                                             </i>
                                                         </Button>
-                                                        <Button className="path-list--item_edit"
+                                                        <Button className="path-list--item_delete"
                                                                 variant="danger"
                                                                 title={"Delete this path"}
                                                                 onClick={()=> {

@@ -509,16 +509,18 @@ h2 {
   line-height: 15px;
   border-bottom: 1px solid #f6f6f6;
   max-width: 265px; }
-  .path-list--item_show, .path-list--item_edit {
+  .path-list--item_show, .path-list--item_delete, .path-list--item_edit {
     width: 26px;
     height: 26px;
-    display: flex;
+    display: flex !important;
     padding: 2px !important;
-    text-align: center; }
-    .path-list--item_show i, .path-list--item_edit i {
+    text-align: center !important;
+    justify-content: center;
+    align-items: center; }
+    .path-list--item_show i, .path-list--item_delete i, .path-list--item_edit i {
       vertical-align: middle;
       font-size: 14px; }
-  .path-list--item_edit {
+  .path-list--item_edit, .path-list--item_delete {
     margin-left: 5px; }
   .path-list--item_name {
     font-size: 12px;
@@ -527,6 +529,10 @@ h2 {
     white-space: nowrap;
     text-overflow: ellipsis;
     display: inline-block; }
+
+.path-list--btns {
+  display: flex;
+  justify-content: space-between; }
 
 .path-btns--controls {
   display: flex;

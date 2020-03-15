@@ -158,18 +158,22 @@
     border-bottom: 1px solid $wild-sand;
     max-width: 265px;
     &_show,
+    &_delete,
     &_edit {
       width: 26px;
       height: 26px;
-      display: flex;
+      display: flex !important;
       padding: 2px !important;
-      text-align: center;
+      text-align: center!important;
+      justify-content: center;
+      align-items: center;
       i {
         vertical-align: middle;
         font-size: 14px;
       }
     }
-    &_edit {
+    &_edit,
+    &_delete {
       margin-left: 5px;
     }
     &_name {
@@ -180,6 +184,10 @@
       text-overflow: ellipsis;
       display: inline-block;
     }
+  }
+  &--btns {
+    display: flex;
+    justify-content: space-between;
   }
 }
 
