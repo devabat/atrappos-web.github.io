@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {BrowserRouter as Router, Route, Switch, withRouter} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch, withRouter} from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./auth/setAuthToken";
 
@@ -38,11 +38,12 @@ class App extends Component {
           <Router basename={process.env.PUBLIC_URL}>
             <div className="App">
               {/*<Navbar />*/}
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/register" component={withRouter(Register)} />
-              <Route exact path="/login" component={withRouter(Login)} />
               <Switch>
+                <Route exact path="/" component={Landing} />
+                <Route exact path="/register" component={withRouter(Register)} />
+                <Route exact path="/login" component={withRouter(Login)} />
                 <PrivateRoute exact path="/map" component={CustomMap} />
+                <Route path="/" render={()=> <Redirect to="/"/>}/>
               </Switch>
             </div>
           </Router>
