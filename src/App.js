@@ -35,7 +35,7 @@ class App extends Component {
   render() {
     return (
         <Provider store={store}>
-          <Router>
+          <Router basename={process.env.PUBLIC_URL}>
             <div className="App">
               {/*<Navbar />*/}
               <Route exact path="/" component={Landing} />
