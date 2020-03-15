@@ -1,6 +1,6 @@
 import { SET_CURRENT_USER, USER_LOADING } from "../services/types";
 
-const isEmpty = require("../../../atrappos-server/node_modules/is-empty");
+const isEmpty = require('is-empty');
 
 const initialState = {
   isAuthenticated: false,

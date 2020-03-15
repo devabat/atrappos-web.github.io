@@ -10,6 +10,7 @@
         "bootstrap": "^4.4.1",
         "classnames": "^2.2.6",
         "http-proxy-middleware": "^0.20.0",
+        "is-empty": "^1.2.0",
         "jwt-decode": "^2.2.0",
         "leaflet": "^1.6.0",
         "leaflet-control-geocoder": "^1.11.0",
