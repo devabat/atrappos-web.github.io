@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types"
 
-const prefix = process.env.NODE_ENV === 'production' && process.env.REACT_APP_SERVER_URL ? '/' +  process.env.REACT_APP_SERVER_URL : "";
+const prefix = process.env.NODE_ENV === 'production' && process.env.REACT_APP_SERVER_URL ?  process.env.REACT_APP_SERVER_URL : "";
 // Register User
 export const registerUser = (userData, history) => dispatch => {
     axios

@@ -2,7 +2,7 @@ import axios from 'axios';
 import {setAllPaths} from "../actions/actions";
 import store from "../store";
 
-const prefix = process.env.NODE_ENV === 'production' && process.env.REACT_APP_SERVER_URL ? '/' + process.env.REACT_APP_SERVER_URL : "";
+const prefix = process.env.NODE_ENV === 'production' && process.env.REACT_APP_SERVER_URL ? process.env.REACT_APP_SERVER_URL : "";
 export default {
   async getAll() {
     try {
