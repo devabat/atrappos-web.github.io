@@ -1,5 +1,5 @@
 {
-    "name": "atrappos-web",
+    "name": "atrappos-client",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -30,7 +30,7 @@
     },
     "scripts": {
         "start-js": "react-scripts start",
-        "build-js": "node scripts/build.js",
+        "build-js": "react-scripts build",
         "start": "npm-run-all -p watch-css start-js",
         "build": "npm run build-css && npm run build-js",
         "build-css": "node-sass-chokidar src/assets/scss -o src/assets/css",
@@ -54,5 +54,9 @@
     "devDependencies": {
         "node-sass-chokidar": "^1.4.0",
         "npm-run-all": "^4.1.5"
+    },
+    "engines": {
+        "npm": "6.13.4",
+        "node": "12.16.1"
     }
 }
