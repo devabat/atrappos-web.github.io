@@ -1,0 +1,72 @@
+.street-view__btn {
+  width: 201px;
+  color: $white;
+  padding: 6px 20px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  border: 0;
+  outline: none !important;
+  &:disabled {
+    background-color: $nobel;
+    cursor: not-allowed;
+    &:hover {
+      box-shadow: none !important;
+    }
+  }
+  > span {
+    @include font-mixin(500, 14px, 1);
+    margin-top: 3px;
+  }
+  > i {
+    @include font-mixin(normal, 20px, 1);
+    margin-right: 10px;
+  }
+  &--on {
+    background-color: $green-haze;
+  }
+  &--off {
+    background-color: $alizaring-crimson;
+  }
+  &:hover {
+    -moz-box-shadow: 4px 4px 8px $sirocco, 0 0 4px $sirocco;
+    -webkit-box-shadow: 4px 4px 8px $sirocco, 0 0 4px $sirocco;
+    box-shadow: 4px 4px 8px $sirocco, 0 0 4px $sirocco;
+  }
+  &--wrapper {
+    display: flex;
+    align-items: center;
+   .tltp--wrapper {
+     margin-top: 2px;
+     b {
+       width: 10px;
+       height: 10px;
+       display: block;
+       margin-top: 5px;
+       position: absolute;
+       top: 8px;
+       left: 4px;
+       background-color: $white;
+       z-index: -1;
+     }
+   }
+  }
+  &--tltp {
+    font-size: 18px;
+    color: $cobalt;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+}
+
+.popover-body {
+  font-family: $spartan;
+}
+
+#street-view-btn-tltp {
+  margin-top: -6px;
+  color: $sirocco;
+  right: 4px !important;
+}

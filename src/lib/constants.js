@@ -105,6 +105,11 @@ export const markerIcons = {
     default: defaultIcon
 };
 
+export const mapElementsTooltipContent = {
+    polyline: "In order to create a new path, the zoom level of the map should be at least 16. Moreover, you cannot create a new path if the map contains an unsaved one. Save or erase any existing path to create a new one.",
+    marker: "You can add a marker only when the map contains a path (a polyline should be already drawn)."
+
+};
 export const addMarkerTitles = {
     stairs: "Place a marker that indicates the existence of stairs",
     uphill: "Place a marker that indicates the existence of an uphill",
@@ -197,37 +202,37 @@ export const mapLayers =
     },
     thunderforestTransport: {
         title: 'Thunderforest Transport',
-        layer: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=' + process.env.REACT_APP_THUNDERFOREST_API_KEY,
+        layer: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=' + process.env.THUNDERFOREST_API_KEY,
         attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        apikey: process.env.REACT_APP_THUNDERFOREST_API_KEY,
+        apikey: process.env.THUNDERFOREST_API_KEY,
         maxZoom: 22
     },
     thunderforestTransportDark: {
         title: 'Thunderforest Transport Dark',
-        layer: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=' + process.env.REACT_APP_THUNDERFOREST_API_KEY,
+        layer: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=' + process.env.THUNDERFOREST_API_KEY,
         attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        apikey: process.env.REACT_APP_THUNDERFOREST_API_KEY,
+        apikey: process.env.THUNDERFOREST_API_KEY,
         maxZoom: 22
     },
     thunderForestSpinalMap: {
         title: 'Thunderforest Spinal Map',
-        layer: 'https://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}.png?apikey=' + process.env.REACT_APP_THUNDERFOREST_API_KEY,
+        layer: 'https://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}.png?apikey=' + process.env.THUNDERFOREST_API_KEY,
         attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        apikey: process.env.REACT_APP_THUNDERFOREST_API_KEY,
+        apikey: process.env.THUNDERFOREST_API_KEY,
         maxZoom: 22
     },
     thunderforestLandscape: {
         title: 'Thunderforest Landscape',
-        layer: 'https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=' + process.env.REACT_APP_THUNDERFOREST_API_KEY,
+        layer: 'https://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=' + process.env.THUNDERFOREST_API_KEY,
         attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        apikey: process.env.REACT_APP_THUNDERFOREST_API_KEY,
+        apikey: process.env.THUNDERFOREST_API_KEY,
         maxZoom: 22
     },
     thunderforestMobileAlias: {
         title: 'Thunderforest Mobile Alias',
-        layer: 'https://{s}.tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}.png?apikey=' + process.env.REACT_APP_THUNDERFOREST_API_KEY,
+        layer: 'https://{s}.tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}.png?apikey=' + process.env.THUNDERFOREST_API_KEY,
         attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        apikey: process.env.REACT_APP_THUNDERFOREST_API_KEY,
+        apikey: process.env.THUNDERFOREST_API_KEY,
         maxZoom: 22
     },
     esriWorldStreetMap: {

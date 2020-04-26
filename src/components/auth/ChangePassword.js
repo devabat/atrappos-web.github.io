@@ -1,32 +1,25 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../../services/authService";
+import { changePassword } from "../../services/authService";
 import classnames from "classnames";
-import {Logo} from "../layout/Logo";
+import { Logo } from "../layout/Logo";
 
-class Login extends Component {
+class ChangePassword extends Component {
   constructor() {
     super();
     this.state = {
       email: "",
       password: "",
+      newPassword: "",
       errors: {}
     };
   }
 
   componentDidMount() {
-    // If logged in and user navigates to Login page, should redirect them to map
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/map");
-    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/map");
-    }
 
     if (nextProps.errors) {
       this.setState({
@@ -43,11 +36,13 @@ class Login extends Component {
     e.preventDefault();
 
     const userData = {
-      email: this.state.email,
-      password: this.state.password
+      email: this.props.auth.user.email,
+      password: this.state.password,
+      newPassword: this.state.newPassword,
+      repeatNewPassword: this.state.repeatNewPassword
     };
 
-    this.props.loginUser(userData);
+    this.props.changePassword(userData, this.props.history);
   };
 
   render() {
@@ -60,30 +55,10 @@ class Login extends Component {
             <Logo logoCls="logo--landing" />
             <div className="col">
               <h4>
-                <b>Login</b> below
+                <b>Change password</b>
               </h4>
-              <p className="grey-text text-darken-1">
-                Don't have an account? <Link to="/register">Register</Link>
-              </p>
             </div>
             <form noValidate onSubmit={this.onSubmit}>
-              <div className="input-field col">
-                <label htmlFor="email">Email</label>
-                <input
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
-                  className={classnames("", {
-                    invalid: errors.email || errors.emailnotfound
-                  })}
-                />
-                <span className="red-text">
-                  {errors.email}
-                  {errors.emailnotfound}
-                </span>
-              </div>
               <div className="input-field col">
                 <label htmlFor="password">Password</label>
                 <input
@@ -101,12 +76,45 @@ class Login extends Component {
                   {errors.passwordincorrect}
                 </span>
               </div>
+              <div className="input-field col">
+                <label htmlFor="password"> New Password</label>
+                <input
+                    onChange={this.onChange}
+                    value={this.state.newPassword}
+                    error={errors.newPassword}
+                    id="newPassword"
+                    type="password"
+                    className={classnames("", {
+                      invalid: errors.newPassword
+                    })}
+                />
+                <span className="red-text">
+                  {errors.newPassword}
+                </span>
+              </div>
+              <div className="input-field col">
+                <label htmlFor="password"> Repeat New Password</label>
+                <input
+                    onChange={this.onChange}
+                    value={this.state.repeatNewPassword}
+                    error={errors.repeatNewPassword}
+                    id="repeatNewPassword"
+                    type="password"
+                    className={classnames("", {
+                      invalid: errors.repeatNewPassword || errors.notMatch
+                    })}
+                />
+                <span className="red-text">
+                  {errors.repeatNewPassword}
+                  {errors.notMatch}
+                </span>
+              </div>
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
                   type="submit"
                   className="btn landing--auth__btn"
                 >
-                  Login
+                  Change password
                 </button>
               </div>
             </form>
@@ -117,8 +125,8 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+ChangePassword.propTypes = {
+  changePassword: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -130,5 +138,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
-)(Login);
+  { changePassword }
+)(ChangePassword);

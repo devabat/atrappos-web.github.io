@@ -19,10 +19,14 @@ import {useSelector} from "react-redux";
 import store from "../../store";
 import {setIsEmptyCollection, setIsEmptyName} from "../../actions/actions";
 import MapSelection from "./MapSelection";
+import {Logo} from "../layout/Logo";
+import CommunityPaths from "./CommunityPaths";
 
 const PathsActions =(props)=> {
   const {userPaths,
+      communityPaths,
       toggleSelectedPaths,
+      toggleSelectedCommunityPaths,
       makePathEditable,
       savePath,
       handleInputName,
@@ -31,12 +35,19 @@ const PathsActions =(props)=> {
       showEditModal,
       showDeleteModal,
       selectedPathName,
-      canGoBack} = props;
+      pathName,
+      canGoBack,
+      disableBack,
+      disableStreetViewAndBack,
+      existingPoly
+  } = props;
   const [pathAction, setPathAction] = useState({show: false, action: ""});
   const [key, setKey] = useState('paths');
   const [visibleUserPaths, setVisibleUserPaths] = useState([]);
   const [viewState, setViewState] = useState(false);
   const [showAllPaths, setShowAllPaths] = useState(false);
+  const [disableBackHdr, setDisableBackHdr] = useState(false);
+  const [animation, setAnimation] = useState(false);
 
   const emptyEls = useSelector(state => state.paths);
   const ids= userPaths.map((path) => path._id);
@@ -49,6 +60,10 @@ const PathsActions =(props)=> {
       }
   };
 
+    const beforeAnimation = (animate) => {
+        setAnimation(animate);
+    };
+
     useEffect(()=> {
         setEditablePathState(pathAction.action, pathAction.show);
     }, [pathAction, setEditablePathState]);
@@ -59,6 +74,11 @@ const PathsActions =(props)=> {
         }
         // eslint-disable-next-line
     }, [canGoBack]);
+
+    useEffect(()=> {
+        setDisableBackHdr(disableBack)
+    }, [disableBack]);
+
 
     const toggleVisibleUserPaths = (id) => {
         let idx = visibleUserPaths.indexOf(id);
@@ -97,8 +117,13 @@ const PathsActions =(props)=> {
 
     return (
       <React.Fragment>
-          <h1 className="logo">Atrappos</h1>
-        <Tabs defaultActiveKey="paths" activeKey={key} id="path-actions-tabs" onSelect={k => setKey(k)}>
+          <Logo logoCls="logo--map" />
+        <Tabs defaultActiveKey="paths" activeKey={key} id="path-actions-tabs" onSelect={k => {
+            if (k !== 'paths') {
+                setAnimation(false);
+            }
+            setKey(k)
+        }}>
             <Tab eventKey="paths" title={
                 <React.Fragment>
                     <span className="tab-icon"><FontAwesomeIcon icon={faRoute} /></span>
@@ -111,12 +136,17 @@ const PathsActions =(props)=> {
                                  returnBack={returnBack}
                                  setAttribute={setAttribute}
                                  setEditablePathState = {setEditablePathState}
+                                 parentPathName = {pathName}
                                  selectedPathName={selectedPathName}
                                  canGoBack={canGoBack}
+                                 beforeAnimation={beforeAnimation}
+                                 disableBack={disableBackHdr}
+                                 disableStreetViewAndBack={disableStreetViewAndBack}
+                                 existingPoly={existingPoly}
                     />
                 :
-                    <div className="tab__inner tab__inner--path-list">
-                        <div className="path-list">
+                    <div className={"tab__inner tab__inner--path-list" + (animation ? " animate": "")}>
+                        <div className= "path-list">
                             <h2>My paths</h2>
                             <React.Fragment>
                                 <label className={"cbox-container" + (userPaths.length <= 0 ? " empty-list": "")}>
@@ -212,7 +242,7 @@ const PathsActions =(props)=> {
                     <span className="tab-icon"><FontAwesomeIcon icon={faUsers} /></span>
                     <span className="tab-title">COMMUNITY</span>
                 </React.Fragment>}>
-                <div id="other-paths__view"></div>
+                <CommunityPaths paths={communityPaths} toggleSelectedCommunityPaths={toggleSelectedCommunityPaths} />
             </Tab>
 
             <Tab eventKey="map" title={
@@ -229,8 +259,9 @@ const PathsActions =(props)=> {
                     <span className="tab-icon"><FontAwesomeIcon icon={faQuestionCircle} /></span>
                     <span className="tab-title">FAQ</span>
                 </React.Fragment>}>
+                <h2>FAQ</h2>
 
-              fAAAQ
+              TODO FAQ
             </Tab>
         </Tabs>
       </React.Fragment>

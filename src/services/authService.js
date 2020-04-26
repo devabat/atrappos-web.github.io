@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types"
 
-const prefix = process.env.NODE_ENV === 'production' && process.env.REACT_APP_SERVER_URL ?  process.env.REACT_APP_SERVER_URL : "";
+const prefix = process.env.NODE_ENV === 'production' && process.env.SERVER_URL ?  process.env.SERVER_URL : "";
 // Register User
 export const registerUser = (userData, history) => dispatch => {
     axios
@@ -39,6 +39,27 @@ export const loginUser = userData => dispatch => {
                 type: GET_ERRORS,
                 payload: err.response.data
             })
+        );
+};
+
+// Login - get user token
+export const changePassword = (userData, history) => dispatch => {
+    axios
+        .post(prefix + "/api/users/reset", userData)
+        .then(res => {
+            history.push({
+                pathname: "/",
+                state: {from: "resetPw"}
+            });
+        })
+        .catch(err =>
+            {
+                console.log('RESET ERR', err)
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                })
+            }
         );
 };
 

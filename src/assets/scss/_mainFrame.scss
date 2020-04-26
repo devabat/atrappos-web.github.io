@@ -35,20 +35,55 @@ h5 {
 }
 
 .logo {
+  text-align: center;
+  h1 {
+    font-weight: 600;
+    color: $eastern-blue;
+  }
+  &:hover {
+    text-decoration: none !important;
+    h1 {
+      color: $scooter;
+    }
+  }
+}
+
+.logo--landing {
+  height: 200px;
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  img {
+    width: 120px;
+    margin-bottom: 12px;
+  }
+}
+.logo--map {
   position: absolute;
   top: 20px;
   left: 0;
   width: 125px;
-  text-align: center;
-  font-weight: 600;
-  color: $eastern-blue;
   z-index: 3;
+  img {
+    width: 50px;
+  }
+  h1 {
+    font-size: 16px !important;
+    margin-top: 3px;
+  }
 }
 
 h2 {
   color: $eastern-blue;
   font-weight: 600 !important;
   margin-bottom: 26px !important;
+  &.disable--hdr {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+  }
 }
 
 .warning-backdrop {

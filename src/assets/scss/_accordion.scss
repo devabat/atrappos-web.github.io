@@ -23,7 +23,8 @@
       margin-left: -1px;
       width: calc(100% + 1px);
       &:hover {
-        opacity: 0.8;
+        //opacity: 0.8;
+        box-shadow: 4px 4px 8px $sirocco, 0 0 4px $sirocco;
       }
 
       i {
@@ -42,17 +43,32 @@
       -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.25) !important;
     }
 
+
     &--polyline {
       //border: 1px solid $tonys-pink;
      .card-header {
-        background-color: $tonys-pink;
+        background-color: $terracotta;
+       &:hover {
+         background-color: darken($terracotta, 5%);
+       }
       }
 
     }
     &--marker {
       //border: 1px solid $fountain-blue;
       .card-header {
-        background-color: $fountain-blue;
+        background-color: $keppel;
+        &:hover {
+          background-color: darken($keppel, 5%);
+        }
+      }
+    }
+    &--community {
+      .card-header {
+        background-color: $shakespeare;
+        &:hover {
+          background-color: darken($shakespeare, 5%);
+        }
       }
     }
   }

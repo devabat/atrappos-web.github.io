@@ -12,6 +12,20 @@ export function setIsEmptyName(isEmpty) {
     }
 }
 
+export function setDisableSave(disableSave) {
+    return {
+        type: "DISABLE_SAVE",
+        disableSave: disableSave
+    }
+}
+
+export function setDisableDraw(disableDraw) {
+    return {
+        type: "DISABLE_DRAW",
+        disableDraw: disableDraw
+    }
+}
+
 export function setAllPaths(paths) {
     return {
         type: "ALL_PATHS",

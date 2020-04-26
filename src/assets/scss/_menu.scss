@@ -1,14 +1,4 @@
 .main {
-  //position: fixed;
-  //width: 300px;
-  //height: 100vh;
-  //top: 0;
-  //left: 0;
-  //z-index: 500;
-  //background-color: $white;
-  //box-shadow: 0 25px 25px rgba(0,0,0,0.25);
-  //text-align: left;
-  //display: flex;
   text-align: left;
   .nav-tabs a,
   .tab-content {
@@ -16,7 +6,7 @@
   }
   .nav-tabs {
     flex-direction: column;
-    padding-top: 80px;
+    padding-top: 110px;
     background-color: $white;
     z-index: 2;
     a {
@@ -66,7 +56,9 @@
     background-color: #c6c6c6
   }
   #path-actions-tabs-tabpane-paths,
-  #path-actions-tabs-tabpane-map {
+  #path-actions-tabs-tabpane-map,
+  #path-actions-tabs-tabpane-community,
+  #path-actions-tabs-tabpane-faq {
     overflow-y: auto;
     height: 100%;
     padding: 24px 20px 0;
@@ -100,12 +92,28 @@
     flex-direction: column;
     animation: slide-left 0.3s ease-in-out;
     width: 259px;
+    h2 {
+      cursor: pointer;
+      i {
+        font-size: 24px;
+        margin-right: 15px;
+      }
+    }
   }
   &--path-list {
     display: flex;
     flex-direction: column;
-    animation: slide-right 0.3s ease-in-out;
     width: 259px;
+    &.animate {
+      animation: slide-right 0.3s ease-in-out;
+    }
+  }
+  &--path-community {
+    h6 {
+      font-weight: 500;
+      font-size: 14px;
+      color: $sirocco;
+    }
   }
 }
 
@@ -118,7 +126,7 @@
   }
   &--scroll {
     color: $java;
-    font-size: 26px;
+    font-size: 18px;
     margin-left: 5px;
     cursor: help;
   }
@@ -126,9 +134,10 @@
     overflow: hidden;
     max-height: 255px;
     padding: 0 5px;
-    -moz-box-shadow: inset 1px 1px 6px  $sirocco;
-    -webkit-box-shadow: inset 1px 1px 6px  $sirocco;
-    box-shadow: inset 1px 1px 6px  $sirocco;
+    -moz-box-shadow: 10px 10px 10px $black-haze 0 0 10px $black-haze;
+    -webkit-box-shadow: 10px 10px 10px $black-haze, 0 0 10px $black-haze;
+    box-shadow: 2px 2px 12px $black-haze, 0 0 2px $black-haze;
+    //border: 1px solid $sirocco;
     width: calc(100% + 20px);
     margin-left: -10px;
     border-radius: 5px;
@@ -202,6 +211,19 @@
   }
   &--elements {
     margin: 5px 0 10px 0;
+    display: flex;
+    align-items: center;
+    .tltp--wrapper {
+      margin-left: 5px;
+      margin-right: -3px;
+      .add-element__btn--tltp {
+        color: $eastern-blue;
+      }
+      .show.popover {
+        bottom: 5px !important;
+        left: -4px !important;
+      }
+    }
   }
   .btn {
     padding: 0 6px 0 6px;
@@ -213,9 +235,6 @@
      -webkit-filter: grayscale(90%);
       opacity: 0.4;
       cursor: not-allowed;
-      &:hover {
-        opacity: 0.4;
-      }
     }
     &.path--polyline,
     &.path--marker,
@@ -229,9 +248,9 @@
       width: calc(50% - 8px);
     }
 
-    &:hover {
-      opacity: 0.9;
-    }
+    //&:hover {
+    //  opacity: 0.9;
+    //}
     span {
       font-size: 12px;
       font-weight: 500;
@@ -303,12 +322,8 @@
   }
 }
 
-h2 {
-  cursor: pointer;
-  i {
-    font-size: 24px;
-    margin-right: 15px;
-  }
+.community-paths {
+  margin-top: 36px;
 }
 
 @keyframes slide-left {

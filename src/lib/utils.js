@@ -1,3 +1,4 @@
+import {latLng} from "leaflet/dist/leaflet-src.esm";
 
 export  const mapEvent =(e, cls)=> {
     // eslint-disable-next-line

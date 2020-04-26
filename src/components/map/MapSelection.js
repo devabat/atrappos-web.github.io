@@ -15,7 +15,7 @@ const MapSelection =(props)=> {
          <h2>Select Map Style</h2>
         <div>
             {mapLayersTitles.map((id)=> {
-               return <div id={id} onClick={()=> {toggleSelectedMap(id)}}>
+               return <div id={id} key={id} onClick={()=> {toggleSelectedMap(id)}}>
                    <h6 style={{cursor: "pointer"}}>{mapLayers[id].title}</h6>
                     {/*<img alt={"Layer " + id + " preview"} src={mapLayers[id].title + ".png"} />*/}
                 </div>

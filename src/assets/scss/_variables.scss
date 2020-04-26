@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Spartan:400,500,600,700&display=swap');
+$spartan: 'Spartan', sans-serif;
 
 /* Colors */
 
@@ -65,6 +66,7 @@ $radio-bg-hover: $silver;
 
 
 $eastern-blue: #19869a;
+$scooter: #24c0db;
 $java: #20adc5;
 $mischka: #E6E5E8;
 $spun-pearl: #B1AEB7;
@@ -87,16 +89,35 @@ $wisp-pink: #fde8ef;
 $crimson: #CE1253;
 $polar: #e9f9fb;
 $sirocco: #6D7778;
+$black-haze: #e4e7e7;
 $skeptic: #C4E4CA;
 $killarney: #305A38;
 $dust-storm: #E4C4C6;
 $buccaneer: #5A3033;
 $wild-sand: #f6f6f6;
+$alizaring-crimson: #E32636;
+$purple-heart: #5244D5;
+$medium-purple: #7a6fde;
+$cobalt: #084DB4;
+$shakespeare: #39A3CD;
+
+$pine-glade: #b3d399;
+$mantis: #88BA5E;
+$green-haze: #09B35E;
+
+$nobel: #b3b2b2;
 
 
 
 /* MIXINS */
 
+@mixin font-mixin($weight, $size, $line, $family: $spartan) {
+  font: normal normal $weight #{$size}/#{$line} $family;
+}
+
+@mixin random-bgr(){
+  background: rgb(random(255), random(255), random(255));
+}
 @mixin action-btn-mixin($bg, $activeBg) {
   background-color: $bg;
   border-color: $bg;
@@ -107,5 +128,12 @@ $wild-sand: #f6f6f6;
   &:active {
     background-color: $activeBg !important;
     border-color: $activeBg !important;
+  }
+  &:hover {
+    &:not(:disabled) {
+      box-shadow: 4px 4px 8px $sirocco, 0 0 4px $sirocco !important;
+      background-color: darken($bg, 15%);
+      border-color: darken($bg, 15%);
+    }
   }
 }
