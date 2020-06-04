@@ -32,9 +32,9 @@ Your app is ready to be deployed!
 
 ### ENVIRONMENT VARIABLES
 
-*SERVER_URL: `<Atrappos server url>`
-*THUNDERFOREST_API_KEY: An api key acquired from [Thunderforest Maps](https://www.thunderforest.com/)
-*STADIA_API_KEY: An api key acquired from [Stadia Maps](https://stadiamaps.com/)
+* SERVER_URL: `<Atrappos server url>`
+* THUNDERFOREST_API_KEY: An api key acquired from [Thunderforest Maps](https://www.thunderforest.com/)
+* STADIA_API_KEY: An api key acquired from [Stadia Maps](https://stadiamaps.com/)
 *MOBILE_APP_URL: `<Atrappos mobile App url for redirecting>`
 
 
