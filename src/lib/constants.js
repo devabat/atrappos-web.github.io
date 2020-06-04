@@ -1,166 +1,125 @@
 import * as L from 'leaflet';
-import defaultMarker from '../assets/img/markers/default_marker.png';
-import stairs from '../assets/img/markers/stairs.png';
-import uphill from '../assets/img/markers/uphill.png';
-import broken from '../assets/img/markers/broken.png';
-import road from '../assets/img/markers/road.png';
-import soil from '../assets/img/markers/soil.png';
-import works from '../assets/img/markers/works.png';
-import other from '../assets/img/markers/other.png';
-import shadow from '../assets/img/markers/shadow.png';
+import greenMarker from '../assets/img/markers/marker-icon-green.png'
+import blueMarker from '../assets/img/markers/marker-icon-blue.png';
+import violetMarker from '../assets/img/markers/marker-icon-violet.png';
+import orangeMarker from '../assets/img/markers/marker-icon-orange.png';
+import redMarker from '../assets/img/markers/marker-icon-red.png';
+import goldMarker from '../assets/img/markers/marker-icon-gold.png';
 
-export const markersArr = ['stairs', 'uphill', 'broken', 'road', 'soil', 'works', 'other'];
+import shadow from '../assets/img/markers/marker-shadow.png';
 
 
-
-export const defaultIcon = new L.Icon({
-    iconUrl: defaultMarker,
+export const greenMarkerIcon = new L.Icon({
+    iconUrl: greenMarker,
     shadowUrl: shadow,
-    iconSize: [60, 60],
+    iconSize: [25, 41],
     iconAnchor: [12, 41],
-    popupAnchor: [18, -42],
-    shadowAnchor: [4, 49],
-    shadowSize: [70, 70]
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
 
-export const stairsIcon = new L.Icon({
-    iconUrl: stairs,
+export const blueMarkerIcon = new L.Icon({
+    iconUrl: blueMarker,
     shadowUrl: shadow,
-    iconSize: [60, 60],
+    iconSize: [25, 41],
     iconAnchor: [12, 41],
-    popupAnchor: [18, -42],
-    shadowAnchor: [4, 49],
-    shadowSize: [70, 70],
-    tooltipAnchor: [18, -42]
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
 
-export const uphillIcon = new L.Icon({
-    iconUrl: uphill,
+export const violetMarkerIcon = new L.Icon({
+    iconUrl: violetMarker,
     shadowUrl: shadow,
-    iconSize: [60, 60],
+    iconSize: [25, 41],
     iconAnchor: [12, 41],
-    popupAnchor: [18, -42],
-    shadowAnchor: [4, 49],
-    shadowSize: [70, 70]
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
 
-export const brokenIcon = new L.Icon({
-    iconUrl: broken,
+export const orangeMarkerIcon = new L.Icon({
+    iconUrl: orangeMarker,
     shadowUrl: shadow,
-    iconSize: [60, 60],
+    iconSize: [25, 41],
     iconAnchor: [12, 41],
-    popupAnchor: [20, -44],
-    shadowAnchor: [4, 49],
-    shadowSize: [70, 70]
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
 
-export const roadIcon = new L.Icon({
-    iconUrl: road,
+export const redMarkerIcon = new L.Icon({
+    iconUrl: redMarker,
     shadowUrl: shadow,
-    iconSize: [60, 60],
+    iconSize: [25, 41],
     iconAnchor: [12, 41],
-    popupAnchor: [18, -42],
-    shadowAnchor: [4, 49],
-    shadowSize: [70, 70]
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
 
-export const soilIcon = new L.Icon({
-    iconUrl: soil,
+export const goldMarkerIcon = new L.Icon({
+    iconUrl: goldMarker,
     shadowUrl: shadow,
-    iconSize: [60, 60],
+    iconSize: [25, 41],
     iconAnchor: [12, 41],
-    popupAnchor: [18, -42],
-    shadowAnchor: [4, 49],
-    shadowSize: [70, 70]
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
 });
 
-export const worksIcon = new L.Icon({
-    iconUrl: works,
-    shadowUrl: shadow,
-    iconSize: [60, 60],
-    iconAnchor: [12, 41],
-    popupAnchor: [18, -42],
-    shadowAnchor: [4, 49],
-    shadowSize: [70, 70]
-});
-
-export const otherIcon = new L.Icon({
-    iconUrl: other,
-    shadowUrl: shadow,
-    iconSize: [60, 60],
-    iconAnchor: [12, 41],
-    popupAnchor: [18, -42],
-    shadowAnchor: [4, 49],
-    shadowSize: [70, 70]
-});
-
-export const markerIcons = {
-    stairs: stairsIcon,
-    uphill: uphillIcon,
-    broken: brokenIcon,
-    road: roadIcon,
-    soil: soilIcon,
-    works: worksIcon,
-    other: otherIcon,
-    default: defaultIcon
-};
 
 export const mapElementsTooltipContent = {
-    polyline: "In order to create a new path, the zoom level of the map should be at least 16. Moreover, you cannot create a new path if the map contains an unsaved one. Save or erase any existing path to create a new one.",
-    marker: "You can add a marker only when the map contains a path (a polyline should be already drawn)."
-
-};
-export const addMarkerTitles = {
-    stairs: "Place a marker that indicates the existence of stairs",
-    uphill: "Place a marker that indicates the existence of an uphill",
-    broken: "Place a marker that indicates the presence of broken pavements",
-    road: "Place a marker that indicates the absence of pavements",
-    soil: "Place a marker that indicates a dirt road",
-    works: "Place a marker that indicates public works",
-    other: "Place a marker that indicates any kind of difficulty"
+    polyline: "In order to create a new path, the map should be adequately zoomed. Moreover, you cannot create a new path if the map contains an unsaved one. Save or erase any existing path to create a new one.",
+    styles: "This button changes the evaluation values as stated by the above dropdown selections and then styles the path accordingly. ",
+    shape: "With this button you can edit the shape of your path. It can be used at an already created path.",
+    erase: "Erase the path and clear the map.",
+    description: "Type any kind of information that is worth mentioning. It will be added to the path as a description tag (available in the path's pop-up info).",
+    save: "A path can be saved when it has a submitted evaluation and no blank name."
 };
 
-export const markerTitles = {
-    stairs: "Stairs",
-    uphill: "Uphill",
-    broken: "Broken pavements",
-    road: "Absence of pavements",
-    soil: "Dirt road",
-    works: "Public works",
-    other: "Other difficulty"
-};
-export const hardShipTypes =
-    [{lbl: 'Stairs', val: 'stairs', title: 'Place a marker that indicates the existence of stairs'},
-    {lbl: 'Uphill', val: 'uphill', title: 'Place a marker that indicates the existence of an uphill'},
-    {lbl: 'Broken pavements', val: 'broken', title: 'Place a marker that indicates the presence of broken pavements'},
-    {lbl: 'Absence of pavements', val: 'road', title: 'Place a marker that indicates the absence of pavements'},
-    {lbl: 'Dirt road', val: 'soil', title: 'Place a marker that indicates a dirt road'},
-    {lbl: 'Public works', val: 'works', title: 'Place a marker that indicates public works'},
-    {lbl: 'Other', val: 'other', title: 'Place a marker that indicates any kind of hardship'}];
 
-export const difficultyTypes =
-    [{lbl:'Very easy', val: '2', cls: 'very-easy'},
-    {lbl:'Easy', val: '4', cls: 'easy'},
-    {lbl:'Moderate', val: '6', cls: 'moderate'},
-    {lbl:'Difficult', val: '8', cls:'difficult'},
-    {lbl:'Very difficult', val: '10', cls: 'very-difficult'}];
+export const objectiveTypes =
+    [
+    {label:'Select walking evaluation', value: '3', className: 'lvl-def'},
+    {label:'Excellent', value: '10', className: 'lvl-5'},
+    {label:'Very Good', value: '8', className: 'lvl-4'},
+    {label:'Decent', value: '6', className: 'lvl-3'},
+    {label:'Not so Good', value: '4', className:'lvl-2'},
+    {label:'Poor', value: '2', className: 'lvl-1'}];
 
-export const categoryTypes =
-    [{lbl: 'Urban', val: '#958383', cls: 'hurricane'},
-    {lbl: 'Industrial', val: '#B55936', cls: 'brown-rust'},
-    {lbl: 'Market/shops', val: '#6B5582', cls: 'rum'},
-    {lbl: 'Restaurants/bars', val: '#AD5C92', cls: 'tapestry'},
-    {lbl: 'Alleys', val: '#AE8247', cls: 'driftwood'},
-    {lbl: 'Park/garden', val: '#588B50', cls: 'hippie-green'},
-    {lbl: 'Historical place', val: '#3E7975', cls: 'faded-jade'},
-    {lbl: 'Seaview', val: '#5E82A6', cls:'horizon'},
-    {lbl: 'Other', val: '#A65E61', cls: 'coral-tree'}
+export const subjectiveTypes = [
+    {label:'Select visual evaluation', value: '#7D98A1', className: 'lvl-def'},
+    {label: 'Magnificent', value: '#12C416', className: 'lvl-5'},
+    {label: 'Very pleasing', value: '#3D7AF5', className: 'lvl-4'},
+    {label: 'Fair', value: '#B054F8', className: 'lvl-3'},
+    {label: 'Not so pleasing', value: '#F27418', className: 'lvl-2'},
+    {label: 'Unpleasant', value: '#F41A1A', className:'lvl-1'},
     ];
 
-export const mapLayersTitles= ['osmMapnik', 'osmHot', 'osmTopo', 'stadiaAlidadeSmooth',
-    'stadiaAlidadeSmoothDark', 'stadiaOutdoors', 'thunderforestTransport', 'thunderforestTransportDark',
-    'thunderForestSpinalMap', 'thunderforestLandscape', 'thunderforestMobileAlias', 'esriWorldStreetMap',
-    'esriWorldImagery', 'mtbMap', 'cartoDbPositron', 'cartoDbDarkMatter', 'cartoDbVoyager', 'hikeBike'
+export const defaultSubjectiveValue = '#7D98A1';
+
+export const defaultObjectiveValue = '3';
+
+export const filterLbl = 'Filter Selections';
+
+
+export const objectiveTypesKeyValue = {
+    '10': {label:'Excellent', className: 'lvl-5'},
+    '8': {label:'Very Good', className: 'lvl-4'},
+    '6': {label:'Decent', className: 'lvl-3'},
+    '4': {label:'Not so Good', className:'lvl-2'},
+    '2': {label:'Poor', className: 'lvl-1'}
+}
+
+export const subjectiveTypesKeyValue = {
+    '#12C416': {label: 'Magnificent', className: 'lvl-5', marker: greenMarkerIcon},
+    '#3D7AF5': {label: 'Very pleasing', className: 'lvl-4', marker: blueMarkerIcon},
+    '#B054F8': {label: 'Fair', className: 'lvl-3', marker: violetMarkerIcon},
+    '#F27418': {label: 'Not so pleasing', className: 'lvl-2', marker: orangeMarkerIcon},
+    '#F41A1A': {label: 'Unpleasant', className:'lvl-1', marker: redMarkerIcon}
+};
+
+export const mapLayersTitles= ['osmMapnik',  'esriWorldImagery', 'esriWorldStreetMap', 'osmHot', 'osmTopo', 'stadiaAlidadeSmooth',
+    'stadiaAlidadeSmoothDark', 'stadiaOutdoors', 'stadiaOsmBright',
+    'thunderForestSpinalMap', 'thunderforestLandscape', 'thunderforestMobileAlias',
+    'thunderforestTransport', 'thunderforestTransportDark',
+    'mtbMap', 'cartoDbPositron', 'cartoDbDarkMatter', 'cartoDbVoyager', 'hikeBike'
 ];
 
 export const mapLayers =
@@ -169,6 +128,16 @@ export const mapLayers =
         layer: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    },
+    esriWorldImagery: {
+        title: 'Esri World Imagery',
+        layer: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    },
+    esriWorldStreetMap: {
+        title: 'Esri World Street Map',
+        layer: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
     },
     osmHot: {
         title: 'OpenStreetMap Hot',
@@ -184,35 +153,27 @@ export const mapLayers =
     },
     stadiaAlidadeSmooth: {
         title: 'Stadia Alidade Smooth',
-        layer: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png',
+        layer: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=' + process.env.STADIA_API_KEY,
         maxZoom: 20,
         attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     },
     stadiaAlidadeSmoothDark: {
         title: 'Stadia Alidade Smooth Dark',
-        layer: 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png',
+        layer: 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=' + process.env.STADIA_API_KEY,
         maxZoom: 20,
         attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     },
     stadiaOutdoors: {
         title: 'Stadia Outdoors',
-        layer: 'https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png',
+        layer: 'https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png?api_key=' + process.env.STADIA_API_KEY,
         maxZoom: 20,
         attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     },
-    thunderforestTransport: {
-        title: 'Thunderforest Transport',
-        layer: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=' + process.env.THUNDERFOREST_API_KEY,
-        attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        apikey: process.env.THUNDERFOREST_API_KEY,
-        maxZoom: 22
-    },
-    thunderforestTransportDark: {
-        title: 'Thunderforest Transport Dark',
-        layer: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=' + process.env.THUNDERFOREST_API_KEY,
-        attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        apikey: process.env.THUNDERFOREST_API_KEY,
-        maxZoom: 22
+    stadiaOsmBright: {
+        title: 'Stadia OSM Bright',
+        layer: 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png?api_key=' + process.env.STADIA_API_KEY,
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     },
     thunderForestSpinalMap: {
         title: 'Thunderforest Spinal Map',
@@ -235,15 +196,19 @@ export const mapLayers =
         apikey: process.env.THUNDERFOREST_API_KEY,
         maxZoom: 22
     },
-    esriWorldStreetMap: {
-        title: 'Esri World Street Map',
-        layer: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+    thunderforestTransport: {
+        title: 'Thunderforest Transport',
+        layer: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=' + process.env.THUNDERFOREST_API_KEY,
+        attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        apikey: process.env.THUNDERFOREST_API_KEY,
+        maxZoom: 22
     },
-    esriWorldImagery: {
-        title: 'Esri World Imagery',
-        layer: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    thunderforestTransportDark: {
+        title: 'Thunderforest Transport Dark',
+        layer: 'https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=' + process.env.THUNDERFOREST_API_KEY,
+        attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        apikey: process.env.THUNDERFOREST_API_KEY,
+        maxZoom: 22
     },
     mtbMap: {
         title: 'Mtb Map',

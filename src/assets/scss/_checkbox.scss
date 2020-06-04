@@ -5,8 +5,7 @@
   align-items: flex-end;
   position: relative;
   padding-left: 25px;
-  margin-bottom: 12px;
-  margin-left: -10px;
+  margin: 0 0 12px -10px;
   cursor: pointer;
   font-size: 22px;
   height: 22px;
@@ -14,7 +13,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  &.empty-list {
+  &.disable-list {
     opacity: 0.5;
     cursor: not-allowed;
   }
@@ -23,6 +22,7 @@
 .cbox-lbl-txt {
   font-size: 14px;
   font-weight: 500;
+  margin-left: 5px;
 }
 
 /* Hide the browser's default checkbox */

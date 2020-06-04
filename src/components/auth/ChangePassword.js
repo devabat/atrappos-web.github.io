@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { changePassword } from "../../services/authService";
 import classnames from "classnames";
 import { Logo } from "../layout/Logo";
+import {LoaderAuth} from "../ui/LoaderAuth";
 
 class ChangePassword extends Component {
   constructor() {
@@ -58,7 +59,7 @@ class ChangePassword extends Component {
                 <b>Change password</b>
               </h4>
             </div>
-            <form noValidate onSubmit={this.onSubmit}>
+            <form noValidate onSubmit={this.onSubmit} autoComplete="off">
               <div className="input-field col">
                 <label htmlFor="password">Password</label>
                 <input
@@ -67,6 +68,7 @@ class ChangePassword extends Component {
                   error={errors.password}
                   id="password"
                   type="password"
+                  autoComplete="on"
                   className={classnames("", {
                     invalid: errors.password || errors.passwordincorrect
                   })}
@@ -84,6 +86,7 @@ class ChangePassword extends Component {
                     error={errors.newPassword}
                     id="newPassword"
                     type="password"
+                    autoComplete="off"
                     className={classnames("", {
                       invalid: errors.newPassword
                     })}
@@ -100,6 +103,7 @@ class ChangePassword extends Component {
                     error={errors.repeatNewPassword}
                     id="repeatNewPassword"
                     type="password"
+                    autoComplete="off"
                     className={classnames("", {
                       invalid: errors.repeatNewPassword || errors.notMatch
                     })}
@@ -111,10 +115,14 @@ class ChangePassword extends Component {
               </div>
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
+                  disabled={this.props.auth.changePwLoading}
                   type="submit"
                   className="btn landing--auth__btn"
                 >
-                  Change password
+                  {this.props.auth.changePwLoading ?
+                      <LoaderAuth />
+                      : "Change Password"
+                  }
                 </button>
               </div>
             </form>

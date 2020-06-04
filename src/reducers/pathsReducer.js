@@ -1,34 +1,61 @@
 
 const initialState = {
-    emptyCollection: true,
+    emptyPath: true,
     emptyName: false,
     disableSave: true,
     disableDraw: false,
-    allPaths: [],
-    mapLayer: "osmMapnik"
+    unchangedObjective: false,
+    unchangedSubjective: false,
+    unchangedName: false,
+    unchangedDescription: false,
+    pathEvaluated: false,
+    pathEdited: false,
+    disableEvalBtn: false,
+    evalChangeNotSubmitted: false,
+    disableDropdowns: false,
+    allPaths: {
+        fetching: false,
+        fetched: false,
+        payload: null
+    }
 };
 
 export default function(state = initialState, action) {
     switch (action.type) {
-        case 'EMPTY_COLLECTION':
+        case 'EMPTY_PATH':
             return {
                 ...state,
-                emptyCollection: action.emptyCollection
+                emptyPath: action.emptyPath
             };
         case 'EMPTY_NAME':
             return {
                 ...state,
                 emptyName: action.emptyName
             };
-        case 'ALL_PATHS':
+        case 'GET_ALL_PATHS_PENDING':
             return {
                 ...state,
-                allPaths: action.allPaths
+                allPaths: {
+                    fetching: true,
+                    fetched: false
+                }
             };
-        case 'SET_MAP_LAYER':
+        case 'GET_ALL_PATHS_REJECTED':
             return {
                 ...state,
-                mapLayer: action.mapLayer
+                allPaths: {
+                    fetching: false,
+                    fetched: false,
+                    payload: action.payload
+                }
+            };
+        case 'GET_ALL_PATHS_FULFILLED':
+            return {
+                ...state,
+                allPaths: {
+                    fetching: false,
+                    fetched: true
+                }
             };
         case 'DISABLE_SAVE':
             return {
@@ -39,6 +66,51 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 disableDraw: action.disableDraw
+            };
+        case 'UNCHANGED_OBJECTIVE' :
+            return {
+                ...state,
+                unchangedObjective: action.unchangedObjective
+            };
+        case 'UNCHANGED_SUBJECTIVE' :
+            return {
+                ...state,
+                unchangedSubjective: action.unchangedSubjective
+            };
+        case 'UNCHANGED_NAME' :
+            return {
+                ...state,
+                unchangedName: action.unchangedName
+            };
+        case 'UNCHANGED_DESCRIPTION' :
+            return {
+                ...state,
+                unchangedDescription: action.unchangedDescription
+            };
+        case 'PATH_EVALUATED':
+            return {
+                ...state,
+                pathEvaluated: action.pathEvaluated
+            };
+        case 'PATH_EDITED':
+            return {
+                ...state,
+                pathEdited: action.pathEdited
+            };
+        case 'DISABLE_EVAL_BTN':
+            return {
+                ...state,
+                disableEvalBtn: action.disableEvalBtn
+            };
+        case 'EVAL_CHANGE_NOT_SUBMITTED':
+            return {
+                ...state,
+                evalChangeNotSubmitted: action.evalChangeNotSubmitted
+            };
+        case 'DISABLE_DROPDOWNS':
+            return {
+                ...state,
+                disableDropdowns: action.disableDropdowns
             };
         default:
             return state;

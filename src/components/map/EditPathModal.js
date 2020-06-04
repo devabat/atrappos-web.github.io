@@ -30,7 +30,7 @@ export const EditPathModal = (props) => {
                 <Modal.Header>
                     <Modal.Title>Warning</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>You have usaved features. What would you like to do?</Modal.Body>
+                <Modal.Body>You have unsaved changes. What would you like to do?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="danger" onClick={discardAll}>
                         <span><FontAwesomeIcon icon={faTrashAlt} /></span>

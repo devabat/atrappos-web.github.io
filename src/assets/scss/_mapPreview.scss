@@ -1,0 +1,115 @@
+.map-preview {
+  width: 275px;
+  margin-left: -10px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+
+  h6 {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 0 !important;
+    background-color: $java;
+    padding: 6px 10px 6px 10px;
+    color: $white;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .map-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    &--selected {
+      border: 6px solid $java;
+    }
+  }
+}
+
+.bg-map-preview {
+  width: 300px; height: 190px;
+  display: block;
+  background-image: url('../img/map/map_sprite.png');
+  border-radius: 10px;
+}
+
+.bg-cartoDbDarkMatter {
+  background-position: -10px -10px;
+}
+
+.bg-cartoDbPositron {
+  background-position: -330px -10px;
+}
+
+.bg-cartoDbVoyager {
+  background-position: -10px -220px;
+}
+
+.bg-esriWorldImagery {
+  background-position: -330px -220px;
+}
+
+.bg-esriWorldStreetMap {
+  background-position: -10px -430px;
+}
+
+.bg-hikeBike {
+  background-position: -330px -430px;
+}
+
+.bg-mtbMap {
+  background-position: -650px -10px;
+}
+
+.bg-osmHot {
+  background-position: -650px -220px;
+}
+
+.bg-osmMapnik {
+  background-position: -650px -430px;
+}
+
+.bg-osmTopo {
+  background-position: -10px -640px;
+}
+
+.bg-stadiaAlidadeSmooth {
+  background-position: -330px -640px;
+}
+
+.bg-stadiaAlidadeSmoothDark {
+  background-position: -650px -640px;
+}
+
+.bg-stadiaOsmBright {
+  background-position: -970px -10px;
+}
+
+.bg-stadiaOutdoors {
+  background-position: -970px -220px;
+}
+
+.bg-thunderforestLandscape {
+  background-position: -970px -430px;
+}
+
+.bg-thunderforestMobileAlias {
+  background-position: -970px -640px;
+}
+
+.bg-thunderForestSpinalMap {
+  background-position: -10px -850px;
+}
+
+.bg-thunderforestTransport {
+  background-position: -330px -850px;
+}
+
+.bg-thunderforestTransportDark {
+  background-position: -650px -850px;
+}

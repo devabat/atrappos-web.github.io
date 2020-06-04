@@ -9,6 +9,7 @@ body {
   font-family: 'Spartan', sans-serif !important;
 }
 
+main,
 .main {
   display: flex;
 
@@ -49,7 +50,7 @@ h5 {
 }
 
 .logo--landing {
-  height: 200px;
+  height: 160px;
   padding-top: 40px;
   display: flex;
   flex-direction: column;
@@ -57,22 +58,18 @@ h5 {
   align-items: center;
   margin-bottom: 20px;
   img {
-    width: 120px;
+    width: 244px;
     margin-bottom: 12px;
   }
 }
 .logo--map {
   position: absolute;
-  top: 20px;
+  top: 18px;
   left: 0;
   width: 125px;
   z-index: 3;
   img {
-    width: 50px;
-  }
-  h1 {
-    font-size: 16px !important;
-    margin-top: 3px;
+    width: 110px;
   }
 }
 
@@ -128,13 +125,15 @@ h2 {
 }
 
 .notification-toast {
-  position: absolute !important;
-  left: calc(50% - 175px);
-  right: calc(50% - 175px);
-  z-index: 800;
-  top: 0;
-  width: 100%;
-  max-width: 420px !important;
+  max-width: initial !important;
+  &__wrapper {
+    top: 0;
+    position: absolute !important;
+    left: calc(50% - 175px);
+    right: calc(50% - 175px);
+    z-index: 1002;
+    width: auto;
+  }
   &.error {
     background-color: $dust-storm;
     .toast-body {
@@ -152,9 +151,14 @@ h2 {
     }
   }
   .toast-body {
-    display: flex;
-    align-items: center;
-    padding: 30px 15px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 15px;
+    height: auto;
+    position: relative;
+    text-align: center;
+    width: 100%;
     span {
       line-height: 20px;
       &:first-child {
@@ -163,8 +167,9 @@ h2 {
       }
       &:nth-child(2) {
         font-size: 16px;
-        height: 16px;
         font-weight: 500;
+        margin: 10px 0 0 10px;
+        text-align: left;
       }
     }
   }
@@ -190,18 +195,16 @@ h2 {
 
 .leaflet-draw-actions a:hover {
   color: $polar !important;
-
 }
 
 .leaflet-draw-tooltip-subtext {
   color: $prim;
 }
 
-//.leaflet-retina .leaflet-draw-toolbar a {
-//  transform: scale(1.5);
-//  width: 25px;
-//  height: 32px;
-//}
+.search-control-icon-button svg,
+.search-control-active .search-control-close-button > svg {
+  margin-top: 3px;
+}
 
 #pathSelect {
   font-family: 'Spartan', sans-serif !important;
@@ -216,8 +219,6 @@ h2 {
    left: 0;
    z-index: 500;
    background-color: $white;
-   //border-radius: 15px;
-   //box-shadow: 0 25px 25px rgba(0,0,0,0.25);
  }
 
 

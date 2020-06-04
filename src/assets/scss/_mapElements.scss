@@ -66,7 +66,21 @@
 }
 
 #street-view-btn-tltp {
-  margin-top: -6px;
+  top: -6px;
   color: $sirocco;
-  right: 4px !important;
+  right: 7px !important;
+}
+
+.bs-popover-auto[x-placement^=right], .bs-popover-right {
+  margin-left: 0 !important;
+}
+
+.bs-popover-auto[x-placement^=bottom], .bs-popover-bottom {
+  margin: 0 !important;
+  top: 7px !important;
+  left: -5px !important;
+}
+
+.bs-popover-auto[x-placement^=left], .bs-popover-left{
+  margin: 0 !important;
 }

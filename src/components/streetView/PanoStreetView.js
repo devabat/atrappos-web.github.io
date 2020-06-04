@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InfoTooltip from "../ui/InfoTooltip";
+import {sendGaEvent} from "../../lib/utils";
 
 const DumbControl = Control.extend({
     options: {
@@ -44,7 +45,7 @@ export default withLeaflet(
 
         componentDidMount() {
             super.componentDidMount();
-            let { streetView } = this.props;
+            // let { streetView } = this.props;
             this.forceUpdate();
         }
 
@@ -68,6 +69,7 @@ export default withLeaflet(
                 if (this.props.sameWindow) {
                     window.open(url, "sameWindow");
                 } else {
+                    sendGaEvent({category: "open-streetview", action: 'map-action'});
                     window.open(url);
                 }
             }
@@ -91,8 +93,9 @@ export default withLeaflet(
                         <InfoTooltip id='street-view-btn-tltp'
                                      clsName="street-view"
                                      placement="left"
+                                     gaEvent="streetview-info"
                                      content="When Street View is 'ON', whenever you click on the map a new tab will open with a street view available in this specific area.
-                                     Street View will be disabled when a path is under construction. Otherwise, a new tab would open whenever you tried to draw a map element."/>
+                                     Street View will be disabled during an adding or editing path procedure."/>
                         <button className={"street-view__btn " + (this.state.streetViewEnabled && !this.state.disableStreetView ? 'street-view__btn--on' : 'street-view__btn--off') } //Else render default button
                              onClick={this.buttonClicked}
                                 disabled={this.state.disableStreetView}

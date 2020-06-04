@@ -2,12 +2,9 @@
   height: 75vh;
   text-align: center;
   padding-top: 4rem;
-  h1 {
-    font-weight: 600 !important;
-  }
 
   b {
-    color: $purple-heart;
+    color: $curious-blue;
   }
   &--col {
     margin: 0 auto;
@@ -22,8 +19,10 @@
   }
   a,
   .logout--btn {
-    color: $eastern-blue;
+    color: $java;
     font-weight: 600;
+    outline: none !important;
+    box-shadow: none !important;
     &:hover {
       color: $scooter;
       text-decoration: none !important;
@@ -44,7 +43,7 @@
       border: 1px solid $sirocco;
       outline: none;
       height: 35px !important;
-      padding: 2px 5px;
+      padding: 2px 10px;
     }
     label {
       margin-bottom: 5px !important;
@@ -65,11 +64,13 @@
     &__btn {
       border: 2px solid $eastern-blue !important;
       width: 260px;
-      border-radius: 10px !important;
+      border-radius: 20px !important;
       letter-spacing: 1.5px;
-      margin-top: 15px;
+      margin: 15px auto;
       color: $eastern-blue !important;
       font-weight: 600 !important;
+      line-height: 1.4;
+      @include flex-box(row, center, center);
       &:hover {
         color: $white !important;
         background-color: $eastern-blue !important;
@@ -85,5 +86,45 @@
     border-radius: 3px;
     letter-spacing: 1.5px;
     outline: none !important;
+  }
+}
+
+.welcome-user {
+  color: $curious-blue;
+  margin-bottom: 20px;
+}
+
+.device-message {
+  @include flex-box(column, center, center);
+  padding: 40px 20px;
+  &--icons {
+    margin-top: 30px;
+    border: 4px solid $eastern-blue;
+    padding: 10px;
+    border-radius: 8px;
+    i {
+      color: $eastern-blue;
+      margin: 5px;
+      &:first-child {
+        font-size: 44px !important;
+      }
+      &:nth-child(2) {
+        font-size: 33px !important;
+      }
+
+    }
+  }
+  &--text {
+    @include font-mixin(500, 16px, 1.4);
+    color: $eastern-blue;
+    text-align: center;
+    margin-top: 10px;
+    a {
+      color: $java;
+      display: block;
+      margin-top: 20px;
+      text-decoration: underline;
+      @include font-mixin(600, 22px, 1.4);
+    }
   }
 }

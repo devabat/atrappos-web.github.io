@@ -4,9 +4,15 @@ import errorReducer from "./errorReducer";
 import pathsReducer from "./pathsReducer";
 import mapLayersReducer from "./mapLayersReducer";
 
-export default combineReducers({
+const appReducer = combineReducers({
   auth: authReducer,
   errors: errorReducer,
   paths: pathsReducer,
   mapLayers: mapLayersReducer
 });
+
+const rootReducer = (state, action) => {
+  return appReducer(state, action)
+};
+
+export default rootReducer;

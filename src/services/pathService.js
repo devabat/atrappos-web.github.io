@@ -1,18 +1,19 @@
 import axios from 'axios';
-import {setAllPaths} from "../actions/actions";
 import store from "../store";
 
 const prefix = process.env.NODE_ENV === 'production' && process.env.SERVER_URL ? process.env.SERVER_URL : "";
 export default {
   async getAll() {
     try {
+      store.dispatch({type: 'GET_ALL_PATHS_PENDING'})
       const paths = await axios
-          .get(prefix + `/api/paths`)
+          .get(prefix + `/api/paths/desktop`)
           .then(res => res.data);
-          store.dispatch(setAllPaths(paths));
-          return paths || [];
-    } catch (e) {
-      console.log(e);
+      store.dispatch({type: 'GET_ALL_PATHS_FULFILLED'})
+      return paths || [];
+    } catch (err) {
+      console.log(err);
+      store.dispatch({type: 'GET_ALL_PATHS_REJECTED', payload: err})
     }
   },
   saveOne: async (path) => {

@@ -1,6 +1,7 @@
 
 const initialState = {
-    mapLayer: "osmMapnik"
+    mapLayer: "osmMapnik",
+    selectedTab: "faq"
 };
 
 export default function(state = initialState, action) {
@@ -9,6 +10,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 mapLayer: action.mapLayer
+            };
+        case 'SET_SELECTED_TAB':
+            return {
+                ...state,
+                selectedTab: action.selectedTab
             };
         default:
             return state;

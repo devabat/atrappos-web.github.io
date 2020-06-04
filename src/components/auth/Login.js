@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { loginUser } from "../../services/authService";
 import classnames from "classnames";
 import {Logo} from "../layout/Logo";
+import {LoaderAuth} from "../ui/LoaderAuth";
 
 class Login extends Component {
   constructor() {
@@ -17,15 +18,15 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    // If logged in and user navigates to Login page, should redirect them to map
+    // If logged in and user navigates to Login page, should redirect them to landing page
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/map");
+      this.props.history.push("/home");
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/map");
+      this.props.history.push("/home");
     }
 
     if (nextProps.errors) {
@@ -66,7 +67,7 @@ class Login extends Component {
                 Don't have an account? <Link to="/register">Register</Link>
               </p>
             </div>
-            <form noValidate onSubmit={this.onSubmit}>
+            <form noValidate onSubmit={this.onSubmit} autoComplete="on">
               <div className="input-field col">
                 <label htmlFor="email">Email</label>
                 <input
@@ -92,6 +93,7 @@ class Login extends Component {
                   error={errors.password}
                   id="password"
                   type="password"
+                  autoComplete="on"
                   className={classnames("", {
                     invalid: errors.password || errors.passwordincorrect
                   })}
@@ -103,10 +105,14 @@ class Login extends Component {
               </div>
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
+                  disabled={this.props.auth.loginLoading}
                   type="submit"
                   className="btn landing--auth__btn"
                 >
-                  Login
+                  {this.props.auth.loginLoading ?
+                      <LoaderAuth />
+                      : "Log In"
+                  }
                 </button>
               </div>
             </form>

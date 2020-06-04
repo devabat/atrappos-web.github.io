@@ -1,20 +1,28 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import {applyMiddleware, compose, createStore} from "redux";
 import thunk from "redux-thunk";
-import rootReducer from "./reducers";
+import promise from "redux-promise-middleware";
+import logger from "redux-logger";
+import reducers from "./reducers";
+import persistState from "redux-localstorage";
 
-const initialState = {};
+const config = {key: "redux-atrappos-web"};
 
-const middleware = [thunk];
 
-const store = createStore(
-  rootReducer,
-  initialState,
-  compose(
-    applyMiddleware(...middleware),
-    (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
-      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()) ||
-      compose
-  )
+export const enhancer =
+    (process.env.NODE_ENV === 'production' ?
+            compose(
+                applyMiddleware(promise, thunk),
+                persistState(undefined, config)
+            )
+            :
+            compose(
+                applyMiddleware(promise, thunk, logger),
+                persistState(undefined, config)
+            )
+    );
+
+export default createStore(
+    reducers,
+    enhancer
 );
 
-export default store;

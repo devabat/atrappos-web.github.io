@@ -1,11 +1,13 @@
-import { SET_CURRENT_USER, USER_LOADING } from "../services/types";
+import { SET_CURRENT_USER, LOGIN_LOADING, REGISTER_LOADING, CHANGE_PW_LOADING } from "../services/types";
 
 const isEmpty = require('is-empty');
 
 const initialState = {
   isAuthenticated: false,
   user: {},
-  loading: false
+  loginLoading: false,
+  registerLoading: false,
+  changePwLoading: false
 };
 
 export default function(state = initialState, action) {
@@ -16,10 +18,20 @@ export default function(state = initialState, action) {
         isAuthenticated: !isEmpty(action.payload),
         user: action.payload
       };
-    case USER_LOADING:
+    case LOGIN_LOADING:
       return {
         ...state,
-        loading: true
+        loginLoading: action.loginLoading
+      };
+    case REGISTER_LOADING:
+      return {
+        ...state,
+        registerLoading: action.registerLoading
+      };
+    case CHANGE_PW_LOADING:
+      return {
+        ...state,
+        changePwLoading: action.changePwLoading
       };
     default:
       return state;

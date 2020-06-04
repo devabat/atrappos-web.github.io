@@ -1,0 +1,110 @@
+/* dropdown */
+
+.Dropdown-root {
+  font-size: 12px !important;
+  height: 30px;
+  width: 100%;
+  margin: 10px 0 25px;
+  .Dropdown-control {
+    cursor: pointer;
+    height: 30px;
+    padding: 2px 52px 2px 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid $spun-pearl;
+    border-radius: 5px;
+    .Dropdown-arrow {
+      border-color: $spun-pearl transparent transparent;
+    }
+  }
+  .Dropdown-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .Dropdown-option {
+    position: relative;
+    padding: 5px 5px 5px 45px;
+    display: flex;
+    line-height: 26px;
+    &.lvl-def {
+      padding-left: 15px !important;
+    }
+  }
+
+  .Dropdown-placeholder {
+    position: relative;
+    padding: 8px 5px 5px 35px;
+    display: inline;
+    vertical-align: bottom;
+    &.lvl-def {
+      padding-left: 5px !important;
+    }
+  }
+  &.objective {
+    .Dropdown-option,
+    .Dropdown-placeholder {
+      &:before {
+        position: absolute;
+        display: block;
+        content: "";
+        transform: rotate(45deg);
+        margin-top: 3px;
+        height: 18px;
+        width: 18px;
+        margin-left: -26px;
+      }
+      @include borderPreview(1);
+      @include borderPreview(2);
+      @include borderPreview(3);
+      @include borderPreview(4);
+      @include borderPreview(5);
+    }
+    .Dropdown-placeholder {
+      line-height: 22px;
+    }
+  }
+  &.subjective {
+    .Dropdown-option,
+    .Dropdown-placeholder {
+      &:before {
+        position: absolute;
+        display: block;
+        content: "";
+        margin-top: 0;
+        height: 18px;
+        width: 18px;
+        margin-left: -30px;
+      }
+      &.lvl-5 {
+        &:before {
+          background-color: $malachite;
+        }
+      }
+      &.lvl-4 {
+        &:before {
+          background-color: $dodger-blue;
+        }
+      }
+      &.lvl-3 {
+        &:before {
+          background-color: $heliotrope;
+        }
+      }
+      &.lvl-2 {
+        &:before {
+          background-color: $tango;
+        }
+      }
+      &.lvl-1 {
+        &:before {
+          background-color: $torch-red;
+        }
+      }
+    }
+    .Dropdown-placeholder {
+      line-height: 22px;
+    }
+  }
+}
+

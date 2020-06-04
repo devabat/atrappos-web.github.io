@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { registerUser } from "../../services/authService";
 import classnames from "classnames";
 import {Logo} from "../layout/Logo";
+import {LoaderAuth} from "../ui/LoaderAuth";
 
 class Register extends Component {
   constructor() {
@@ -66,7 +67,7 @@ class Register extends Component {
                 Already have an account? <Link to="/login">Log in</Link>
               </p>
             </div>
-            <form noValidate onSubmit={this.onSubmit}>
+            <form noValidate onSubmit={this.onSubmit} autoComplete="off">
               <div className="input-field col">
                 <label htmlFor="name">Name</label>
                 <input
@@ -103,6 +104,7 @@ class Register extends Component {
                   error={errors.password}
                   id="password"
                   type="password"
+                  autoComplete="off"
                   className={classnames("", {
                     invalid: errors.password
                   })}
@@ -117,6 +119,7 @@ class Register extends Component {
                   error={errors.password2}
                   id="password2"
                   type="password"
+                  autoComplete="off"
                   className={classnames("", {
                     invalid: errors.password2
                   })}
@@ -125,10 +128,14 @@ class Register extends Component {
               </div>
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
+                  disabled={this.props.auth.registerLoading}
                   type="submit"
                   className="btn landing--auth__btn"
                 >
-                  Sign up
+                  {this.props.auth.registerLoading ?
+                      <LoaderAuth />
+                      : "Sign Up"
+                  }
                 </button>
               </div>
             </form>
