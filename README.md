@@ -35,7 +35,8 @@ Your app is ready to be deployed!
 * SERVER_URL: `<Atrappos server url>`
 * THUNDERFOREST_API_KEY: An api key acquired from [Thunderforest Maps](https://www.thunderforest.com/)
 * STADIA_API_KEY: An api key acquired from [Stadia Maps](https://stadiamaps.com/)
-*MOBILE_APP_URL: `<Atrappos mobile App url for redirecting>`
+* MOBILE_APP_URL: `<Atrappos mobile App url for redirecting>`
+* GA_ID: Your [Google Analytics](https://analytics.google.com/analytics/web/) ID
 
 
 ### At Atrappos Server a new environment variable should be added:
