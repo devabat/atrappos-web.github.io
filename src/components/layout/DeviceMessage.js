@@ -30,7 +30,7 @@ const {history} = props;
                The bad news is that you have reached Atr<b>app</b>os Web using a mobile device. <br/>
                The good news is that there exists a mobile application for your current device!  <br/>
                You can use it with the same credentials.
-               <a href='https://atrapposmob.pc14.eu/Atrappos/' target='_self'>
+               <a href= {process.env.MOBILE_APP_URL} target='_self'>
                     Atr<b>app</b>os Mobile
                </a>
            </article>
