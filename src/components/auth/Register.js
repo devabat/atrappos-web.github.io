@@ -83,7 +83,9 @@ class Register extends Component {
                 <span className="red-text">{errors.name}</span>
               </div>
               <div className="input-field col">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Email
+                  <i className='email-disclaimer__label'>*</i>
+                </label>
                 <input
                   onChange={this.onChange}
                   value={this.state.email}
@@ -137,6 +139,10 @@ class Register extends Component {
                       : "Sign Up"
                   }
                 </button>
+                <div className='email-disclaimer__text'>
+                  <i className="email-disclaimer__label--bottom">*</i>
+                  Your email will be used only for authentication. You will not receive any email from this app.
+                </div>
               </div>
             </form>
           </div>

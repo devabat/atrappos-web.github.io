@@ -22,19 +22,23 @@ export const NotificationToast = (props) => {
 
 
     return (
-        <div className="notification-toast__wrapper">
-            <Toast className={"notification-toast " + (toastObj.type)}
-                   onClose={handleClose} show={show} delay={4500} autohide  >
-                <Toast.Body>
-                    <span>
-                        {toastObj.type === "success" ?
-                            <FontAwesomeIcon icon={faCheckCircle} />:null}
-                        {toastObj.type === "error" ?
-                            <FontAwesomeIcon icon={faTimesCircle} />:null}
-                    </span>
-                    <span>{toastObj.msg}</span>
-                </Toast.Body>
-            </Toast>
-        </div>
+        <React.Fragment>
+            {show ?
+                <div className="notification-toast__wrapper">
+                    <Toast className={"notification-toast " + (toastObj.type)}
+                           onClose={handleClose} show={show} delay={4500} autohide  >
+                        <Toast.Body>
+                            <span>
+                                {toastObj.type === "success" ?
+                                    <FontAwesomeIcon icon={faCheckCircle} />:null}
+                                {toastObj.type === "error" ?
+                                    <FontAwesomeIcon icon={faTimesCircle} />:null}
+                            </span>
+                            <span>{toastObj.msg}</span>
+                        </Toast.Body>
+                    </Toast>
+                </div>
+            :null}
+        </React.Fragment>
     );
 };

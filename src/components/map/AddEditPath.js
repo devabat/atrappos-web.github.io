@@ -14,7 +14,7 @@ import EvaluationStyles from "./EvaluationStyles";
 import {mapEvent} from "../../lib/utils";
 import InfoTooltip from "../ui/InfoTooltip";
 import {defaultObjectiveValue, defaultSubjectiveValue, mapElementsTooltipContent} from "../../lib/constants";
-import {setDisableDropdowns, setPathEvaluated} from "../../actions/actions";
+import {setDisableDropdowns, setPathEvaluated} from "../../actions/pathsActions";
 import moment from "moment";
 import {AppContext} from "../../App";
 
@@ -22,7 +22,7 @@ const AddEditPath =(props)=> {
     const {savePath, pathAction, returnBack,
         setAttribute, canGoBack, selectedPathName, selectedPathDescription,
         parentPathName, parentPathDescr, disableBack, beforeAnimation,
-        disableStreetViewAndBack, existingPoly, modifyStyles, pathObjective, pathSubjective } = props;
+        disableStreetViewAndBack, disableEditBtn, disableEraseBtn, existingPoly, modifyStyles, pathObjective, pathSubjective } = props;
 
     const {dispatch} = useContext(AppContext);
 
@@ -60,7 +60,7 @@ const AddEditPath =(props)=> {
         })
         store.dispatch(setDisableDropdowns(true));
         mapEvent(e, "leaflet-draw-draw-polyline");
-        disableStreetViewAndBack();
+        disableStreetViewAndBack(false);
     };
 
 
@@ -154,9 +154,9 @@ const AddEditPath =(props)=> {
                                          gaEvent="draw-polyline-info"
                                          content={mapElementsTooltipContent["polyline"]}/>
                         </div>
-                        <div className="path-btns--notification__wrapper">        {pathsReducer.disableDraw ?
-
-                            <div className="path-btns--notification">
+                        <div className="path-btns--notification__wrapper">
+                            {pathsReducer.disableDraw ?
+                            <div className="path-btns--notification path-btns--notification__pulse">
                                 You need to zoom the map more
                             </div>:null}
                         </div>
@@ -176,7 +176,7 @@ const AddEditPath =(props)=> {
                                 )
                                 }
                                 disabled={pathsReducer.disableEvalBtn ||
-                                (pathAction === "Edit" && (pathsReducer.unchangedSubjective && pathsReducer.unchangedObjective)) }
+                                (pathAction === "Edit" && (pathsReducer.unchangedSubjective && pathsReducer.unchangedObjective))}
                                 onClick={()=> modifyStyles()}>
                             <i>
                                 <FontAwesomeIcon icon={((pathsReducer.evalChangeNotSubmitted && !pathsReducer.disableEvalBtn) ||
@@ -185,10 +185,10 @@ const AddEditPath =(props)=> {
                                 )} />
                             </i>
                             <span>
-                                {pathsReducer.evalChangeNotSubmitted ? "Submit Evaluation" : "Evaluation Submitted"}
+                                {pathsReducer.evalChangeNotSubmitted || !pathsReducer.pathEvaluated ? "Submit Evaluation" : "Evaluation Submitted"}
                             </span>
                         </Button>
-                        <InfoTooltip id='menu-btn-tltp'
+                        <InfoTooltip id='menu-btn-tltp--evaluate'
                                      placement="right"
                                      clsName="menu"
                                      gaEvent="submit-evaluation-info"
@@ -207,7 +207,7 @@ const AddEditPath =(props)=> {
                 </div>
                 <div className="path-btns path-btns--controls">
                     <Button className="path--edit__positions"
-                            disabled={!existingPoly || pathsReducer.emptyPath}
+                            disabled={!existingPoly || pathsReducer.emptyPath || disableEditBtn}
                             onClick={(e)=> {
                                 mapEvent(e, "leaflet-draw-edit-edit")}}>
                         <i>
@@ -217,7 +217,7 @@ const AddEditPath =(props)=> {
                             Edit Shape
                         </span>
                     </Button>
-                    <InfoTooltip id='menu-btn-tltp'
+                    <InfoTooltip id='menu-btn-tltp--edit-shape'
                                  placement="right"
                                  clsName="menu"
                                  gaEvent="edit-path-shape-info"
@@ -226,7 +226,7 @@ const AddEditPath =(props)=> {
                 {pathAction === "Add" ?
                     <div className="path-btns path-btns--controls btn__last">
                         <Button className="path--erase"
-                                disabled={!existingPoly || pathsReducer.emptyPath || disableBack}
+                                disabled={!existingPoly || pathsReducer.emptyPath || disableEraseBtn}
                                 onClick={(e)=> {
                                     mapEvent(e, "leaflet-draw-edit-remove")}}>
                             <i>
@@ -236,7 +236,7 @@ const AddEditPath =(props)=> {
                                 Erase
                             </span>
                         </Button>
-                        <InfoTooltip id='menu-btn-tltp'
+                        <InfoTooltip id='menu-btn-tltp--erase-path'
                                      placement="right"
                                      clsName="menu"
                                      gaEvent="erase-path-info"
@@ -274,7 +274,7 @@ const AddEditPath =(props)=> {
                                 Save
                             </span>
                         </Button>
-                        <InfoTooltip id='menu-btn-tltp'
+                        <InfoTooltip id='menu-btn-tltp--save-path'
                                      placement="right"
                                      clsName="menu"
                                      gaEvent="save-path-info"

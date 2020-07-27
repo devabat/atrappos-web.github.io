@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Dropdown from 'react-dropdown';
 import store from "../../store";
 import 'react-dropdown/style.css';
-import {setDisableEvalBtn} from "../../actions/actions";
+import {setDisableEvalBtn} from "../../actions/pathsActions";
 import {defaultObjectiveValue, defaultSubjectiveValue} from "../../lib/constants";
 import {useSelector} from "react-redux";
 export default (props) => {

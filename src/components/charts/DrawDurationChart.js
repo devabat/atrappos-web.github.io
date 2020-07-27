@@ -3,12 +3,14 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import chartService from "../../services/chartService";
+import {connect} from "react-redux";
+import {LoaderChart} from "../ui/LoaderChart";
 
 am4core.useTheme(am4themes_animated);
 
 class DrawDurationChart extends Component {
     componentDidMount() {
-        let chart = am4core.create("draw-duration-chart-div", am4charts.XYChart);
+        let chart = am4core.create("draw-duration-chart-div", am4charts.XYChart3D);
 
         chart.paddingRight = 20;
 
@@ -22,22 +24,24 @@ class DrawDurationChart extends Component {
         categoryAxis.renderer.minGridDistance = 30;
 
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.title.text = "Draw Duration in Seconds";
+        valueAxis.title.text = "Average Duration in Minutes";
         valueAxis.title.fontWeight = 700;
-        valueAxis.renderer.minWidth = 35;
+        valueAxis.renderer.minWidth = 10;
+        valueAxis.maxPrecision = 0;
 
-        let series = chart.series.push(new am4charts.ColumnSeries());
+        let series = chart.series.push(new am4charts.ColumnSeries3D());
         series.dataFields.valueY = "drawDuration";
         series.dataFields.categoryX = "drawType";
 
-        series.tooltipText = "Duration: {valueY.value}";
+        series.tooltipText = "Average Duration: {valueY.value}min";
         series.tooltip.autoTextColor = false;
         series.tooltip.label.fill = am4core.color("#ffffff");
         series.fill = am4core.color("#20adc5");
         series.clustered = false;
         chart.cursor = new am4charts.XYCursor();
 
-        // // let scrollbarX = new am4charts.XYChartScrollbar();
+
+        // let scrollbarX = new am4charts.XYChartScrollbar();
         // scrollbarX.series.push(series);
         // chart.scrollbarX = scrollbarX;
 
@@ -52,9 +56,19 @@ class DrawDurationChart extends Component {
 
     render() {
         return (
-            <div id="draw-duration-chart-div" style={{ width: "100%", height: "500px" }}></div>
+            <React.Fragment>
+                {this.props.charts.drawDurationChart && this.props.charts.drawDurationChart.fetching ?
+                    <LoaderChart />
+                :null}
+                <div id="draw-duration-chart-div" style={{ width: "100%", height: "500px" }}></div>
+            </React.Fragment>
+
         );
     }
 }
 
-export default DrawDurationChart;
+const mapStateToProps = state => ({
+    charts: state.charts
+});
+
+export default connect(mapStateToProps)(DrawDurationChart);

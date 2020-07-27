@@ -1,7 +1,7 @@
 import React from 'react';
 import store from "../../store";
 import { mapLayersTitles, mapLayers } from "../../lib/constants";
-import {setMapLayer} from "../../actions/actions";
+import {setMapLayer} from "../../actions/pathsActions";
 import {useSelector} from "react-redux";
 import {sendGaEvent} from "../../lib/utils";
 

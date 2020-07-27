@@ -60,7 +60,8 @@
     border-left: 1px solid $mischka;
   }
   .nav-tabs .nav-link.disabled {
-    background-color: #c6c6c6
+    opacity: 0.6;
+    cursor: not-allowed !important;
   }
   #path-actions-tabs-tabpane-paths,
   #path-actions-tabs-tabpane-map,
@@ -86,6 +87,11 @@
       }
       &__description {
         margin-top: 17px;
+      }
+      &__evaluation {
+        > span {
+          @include flex-box(row, flex-start, center)
+        }
       }
     }
     &--caption {
@@ -122,6 +128,7 @@
       .menu__btn--tltp {
         color: $eastern-blue;
         cursor: pointer;
+        font-size: 1rem !important;
       }
       .show.popover.bs-popover-top {
         bottom: 5px !important;
@@ -149,13 +156,12 @@
 .path-list {
   &--outer {
     @include flex-box(row, space-between, center);
-    //width: calc(100% - 10px);
+    margin-top: 15px;
   }
 
   &--wrapper {
     position: relative;
     max-height: 255px;
-    padding: 0 0 0 5px;
     -moz-box-shadow: 10px 10px 10px $black-haze 0 0 10px $black-haze;
     -webkit-box-shadow: 10px 10px 10px $black-haze, 0 0 10px $black-haze;
     box-shadow: 2px 2px 12px $black-haze, 0 0 2px $black-haze;
@@ -169,7 +175,7 @@
     overflow-y: auto;
     max-height: 255px;
     display: block;
-    padding: 25px 10px 25px 0;
+    padding: 25px 10px 25px 5px;
     margin-right: -20px;
   }
 
@@ -191,13 +197,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
     line-height: 15px;
     border-bottom: 1px solid $wild-sand;
     max-width: 260px;
+    padding: 0 0 3px 5px !important;
+    margin: 0 0 5px -5px !important;
     &_show,
     &_delete,
-    &_zoom,
     &_edit {
       width: 26px;
       height: 26px;
@@ -218,29 +224,15 @@
     &_show {
       background-color: $blue-violet !important;
       border: 1px solid $blue-violet !important;
-
       &:focus {
-        box-shadow: 0 0 0 0.2rem rgba(100, 107, 180, .5) !important;
+        box-shadow: none !important;
       }
-    }
-
-    &_zoom {
-      background-color: $ocean-green !important;
-      border: 1px solid $ocean-green !important;
-
-      &:focus {
-        box-shadow: 0 0 0 4px rgba(65, 170, 120, .5) !important;
-      }
-
-      &:disabled {
-        opacity: 0.6;
-        filter: grayscale(100%);
-        -webkit-filter: grayscale(90%);
+      &.selected {
+        box-shadow: 0 0 0 4px rgba(205, 35, 160, 0.8) !important;
       }
     }
 
     &_edit,
-    &_zoom,
     &_delete {
       margin-left: 5px;
     }
@@ -252,6 +244,21 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       display: inline-block;
+      font-style: initial !important;
+      vertical-align: middle;
+      margin-left: 3px;
+    }
+    &__user {
+      position: relative;
+      &:before {
+        position: absolute;
+        left: 0;
+        border-left: 2px solid $steel-blue;
+        height: 16px;
+        content: "";
+        display: block;
+        top: 3px;
+      }
     }
   }
 
@@ -262,6 +269,17 @@
 
   &__info--wrapper {
     @include flex-box(row, flex-start, center);
+    &:hover {
+      cursor: pointer;
+      > div > i > span {
+        > .bubble__icon {
+          color: darken($steel-blue, 30%);
+        }
+
+        color: $steel-blue !important;
+
+      }
+    }
 
     .popover {
       max-width: initial;
@@ -334,7 +352,7 @@
   }
 
   &__sel--label {
-    @include flex-box(row, flex-start, flex-end);
+    display: block;
     padding-left: 10px;
   }
 
@@ -350,7 +368,16 @@
       height: 14px;
       width: 10px;
       transform: rotate(45deg);
-      margin: -4px 0 0px -18px;
+      margin: 2px 0 0px -18px;
+    }
+  }
+  &__header {
+    margin: 20px 0 0 0;
+    position: relative;
+    color: $eastern-blue;
+    left: -10px;
+    > span {
+      @include font-mixin(600, 16px, 1);
     }
   }
   &__subj--label {
@@ -363,7 +390,26 @@
     &.subjective:before {
       height: 12px;
       width: 12px;
-      margin: -7px 0 0px -17px;
+      margin: 3px 0 0px -17px;
+    }
+  }
+
+  &__subheader {
+    padding: 10px 0 5px 10px;
+    position: relative;
+    margin: 10px 0 0 -10px;
+    @include flex-box(row, flex-start, flex-end);
+    font-size: 14px !important;
+    font-weight: 400;
+    line-height: 1;
+    &:before {
+      position: absolute;
+      left: 0;
+      bottom: 7px;
+      border-left: 3px solid $java;
+      height: 20px;
+      content: "";
+      display: block;
     }
   }
 }
@@ -402,6 +448,8 @@
   }
   &--add {
     justify-content: flex-end;
+    height: 40px;
+    padding: 30px 0 00;
   }
   &--save {
     flex-direction: column;
@@ -424,7 +472,8 @@
     &__wrapper {
       position: relative;
       width: 238px;
-      margin-bottom: 38px;
+      margin: 3px 0 38px 0;
+      animation: pulse-animation 1.5s ease-in-out infinite both;
     }
   }
   .btn {
@@ -533,4 +582,16 @@
       vertical-align: middle;
     }
   }
+}
+
+.select-result {
+  &__wrapper {
+    position: relative;
+  }
+  @include font-mixin(600, 12px, 1.2);
+  display: inline-block;
+  color: $blue-violet;
+  position: absolute;
+  right: 6px;
+  top: -4px;
 }

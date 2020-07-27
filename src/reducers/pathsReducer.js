@@ -17,7 +17,9 @@ const initialState = {
         fetching: false,
         fetched: false,
         payload: null
-    }
+    },
+    includeUserPaths: true,
+    hideBubble: false
 };
 
 export default function(state = initialState, action) {
@@ -111,6 +113,16 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 disableDropdowns: action.disableDropdowns
+            };
+        case 'INCLUDE_USER_PATHS':
+            return {
+                ...state,
+                includeUserPaths: action.includeUserPaths
+            };
+        case 'HIDE_BUBBLE':
+            return {
+                ...state,
+                hideBubble: action.hideBubble
             };
         default:
             return state;

@@ -1,6 +1,6 @@
 {
   "name": "atrappos-web",
-  "version": "1.0.0",
+  "version": "4.0.0",
   "private": true,
   "dependencies": {
     "@amcharts/amcharts4": "^4.9.24",

@@ -1,0 +1,62 @@
+.loader-chart {
+  position: relative;
+  margin: 0 auto;
+  width: 160px;
+  height: 120px;
+  &__wrapper {
+    position: relative;
+    height: 400px;
+    @include flex-box(column, center, center);
+    h6 {
+      color: $eastern-blue;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 20px;
+    }
+  }
+}
+
+.loading {
+  position: absolute;
+  float: left;
+  top: 50%;
+  left: 50%;
+  height: 120px;
+  width: 160px;
+  margin-top: -50px;
+  margin-left: -70px;
+  border-left:2px solid $curious-blue;
+  border-bottom:2px solid $curious-blue;
+  padding: 10px;
+  box-sizing:border-box;
+}
+
+@keyframes loading {
+  0% { background-color: $eastern-blue; }
+  30% { background-color: $java; }
+  50% { height: 100px; margin-top: 0; }
+  80% { background-color: $blue-violet;  }
+  100% { background-color: $crimson; }
+}
+
+
+@mixin inner() {
+  height: 10px;
+  width: 30px;
+  background-color: #fff;
+  display: inline-block;
+  margin-top: 90px;
+  -webkit-animation: loading 1.5s infinite;
+  -moz-animation: loading 1.5s infinite;
+  -o-animation: loading 1.5s infinite;
+  animation: loading 1.5s infinite;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+
+}
+@mixin loading() {
+  @for $i from 1 through 10 {
+    .loading-#{$i} { @include inner(); -webkit-animation-delay: $i/4+s; animation-delay: $i/4+s; }
+  }
+}
+.loading { @include loading(); }

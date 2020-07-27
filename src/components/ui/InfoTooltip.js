@@ -1,18 +1,21 @@
 import React, {useState, useRef, useEffect} from 'react';
 import{Overlay, Popover} from 'react-bootstrap';
-import {faComment, faInfo, faInfoCircle} from "@fortawesome/free-solid-svg-icons";
+import {faComment, faInfo, faInfoCircle, faTimes} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {sendGaEvent} from "../../lib/utils";
 
 function InfoTooltip(props) {
-    const {id, clsName, content, placement, gaEvent, pathDetails} = props;
+    const {id, clsName, content, placement, gaEvent, pathDetails, pathName, isStreetView, isTooltipOpen} = props;
     const [show, setShow] = useState(false);
-    const [target, setTarget] = useState(null);
-    const ref = useRef(null);
+    const containerRef = useRef(null);
+    const triggerRef = useRef(null);
 
-    const handleClick = event => {
+    const handleClick = () => {
         setShow(!show);
-        setTarget(event.target);
+    };
+
+    const handleClose = () => {
+        setShow(false);
     };
 
     useEffect(()=> {
@@ -21,10 +24,25 @@ function InfoTooltip(props) {
         }
     }, [show, gaEvent]);
 
+    useEffect(()=> {
+        if (isStreetView) {
+            isTooltipOpen(show)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [show, isStreetView]);
+
     return (
-        <div className='tltp--wrapper' ref={ref}>
-            <i className={clsName + '__btn--tltp'} onClick={handleClick}>
-                {pathDetails?
+        <div className='tltp--wrapper' ref={containerRef}>
+            {isStreetView ?
+                <span onClick={()=> {
+                    if (triggerRef.current) {triggerRef.current.click()}}}
+                      className='street-view__info--text'>HOW IT WORKS</span>:null
+            }
+            <i className={clsName + '__btn--tltp'}
+               ref={triggerRef}
+               onClick={handleClick}>
+                {pathDetails ?
+                    <React.Fragment>
                     <span className="path-details__icons">
                         <b className="bubble__icon">
                             <FontAwesomeIcon icon={faComment} />
@@ -33,6 +51,12 @@ function InfoTooltip(props) {
                             <FontAwesomeIcon icon={faInfo} />
                         </b>
                     </span>
+                    {pathName ?
+                        <span className="path-list--item_name">
+                            {pathName}
+                        </span>
+                    :null}
+                    </React.Fragment>
 
                     :
                     <FontAwesomeIcon icon={faInfoCircle} />
@@ -40,13 +64,18 @@ function InfoTooltip(props) {
             </i>
             <Overlay
                 show={show}
-                target={target}
                 placement={placement}
-                container={ref.current}
                 containerPadding={20}
+                container={containerRef}
+                target={triggerRef}
             >
                 <Popover id={id}>
                     <Popover.Content>
+                        {isStreetView ?
+                            <i className="close-tltp" onClick={()=>{handleClose()}}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </i>:null
+                        }
                         {content}
                     </Popover.Content>
                 </Popover>

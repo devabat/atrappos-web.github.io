@@ -17,14 +17,13 @@ import moment from "moment";
 import {useSelector} from "react-redux";
 import {
   setDisableDropdowns
-} from "./actions/actions";
+} from "./actions/pathsActions";
 import {DeviceMessage} from "./components/layout/DeviceMessage";
 import {Charts} from "./components/charts/Charts";
 import AdminRoute from "./components/auth/AdminRoute";
 
 export const AppContext = React.createContext();
-
-const trackingId = "UA-6395810-5";
+const trackingId = process.env.GA_ID;
 ReactGA.initialize(trackingId);
 
 function reducer(state, action) {

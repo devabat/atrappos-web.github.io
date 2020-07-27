@@ -11,7 +11,7 @@ import {
     Marker, Popup
 } from "react-leaflet";
 import Geocoder from 'leaflet-control-geocoder';
-import PanoStreetView from '../streetView/PanoStreetView.js';
+import PanoStreetView from './PanoStreetView.js';
 import ReactLeafletSearch from "react-leaflet-search";
 // eslint-disable-next-line
 import { GestureHandling } from "leaflet-gesture-handling";
@@ -20,17 +20,15 @@ import { EditControl } from "react-leaflet-draw";
 import PropTypes from "prop-types";
 import cloneDeep from 'lodash/cloneDeep';
 import {
-    defaultObjectiveValue, defaultSubjectiveValue, mapLayers, subjectiveTypesKeyValue
+    defaultObjectiveValue, defaultSubjectiveValue,
+    mapLayers, subjectiveTypesKeyValue, drawLocalOpts
 } from "../../lib/constants";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 import moment from "moment";
-
-
-// SERVICES
 import pathService from '../../services/pathService';
 import {connect} from "react-redux";
-import {loginUser, updateUser} from "../../services/authService";
+import {loginUser} from "../../services/authService";
 import PathsActions from "./PathsActions";
 import {EditPathModal} from "./EditPathModal";
 import {NotificationToast} from "../ui/NotificationToast";
@@ -45,10 +43,11 @@ import {
     setUnchangedSubjective,
     setPathEvaluated,
     setPathEdited, setDisableDropdowns, setEvalChangeNotSubmitted
-} from "../../actions/actions";
+} from "../../actions/pathsActions";
 import {DeletePathModal} from "./DeletePathModal";
 import {sendGaEvent} from "../../lib/utils";
 import {PathInfoTooltip} from "../ui/PathInfoTooltip";
+import {SpeechBubble} from "../ui/SpeechBubble";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -58,13 +57,17 @@ const southWest = L.latLng( 34.582754, 19.072326),
     northEast = L.latLng(41.948798, 29.382288),
     bounds = L.latLngBounds(southWest, northEast);
 
+L.drawLocal = drawLocalOpts;
+
 class CustomMap extends Component {
     constructor(props) {
         super(props);
         this.mapRef = React.createRef();
+        this.zoomRef = React.createRef();
         this.state = {
             currentCenter: null,
             userPaths: [],
+            allPaths: [],
             selectedUserPaths: [],
             selectedUserPathsIds: [],
             selectedUserPathsCopy: [],
@@ -87,6 +90,8 @@ class CustomMap extends Component {
             disableBack: false,
             pathEdited: false,
             disableStreetViewAndBack: false,
+            disableEditBtn: false,
+            disableEraseBtn: false,
             zoom: 16,
             streetView: null,
             tileLayer: this.props.mapLayers.mapLayer,
@@ -137,7 +142,7 @@ class CustomMap extends Component {
         this.makePathEditable= this.makePathEditable.bind(this);
         this.deletePath = this.deletePath.bind(this);
         this.getDefaultPathName = this.getDefaultPathName.bind(this);
-        this.disableStreetViewAndBack = this.disableStreetViewAndBack.bind(this);
+        this.disableElements = this.disableElements.bind(this);
         this.onZoomChange = this.onZoomChange.bind(this);
         this.modifyStyles = this.modifyStyles.bind(this);
         this.changeCenter = this.changeCenter.bind(this);
@@ -168,7 +173,7 @@ class CustomMap extends Component {
                 selectedUserPaths: filtered,
                 pathEdited: false,
                 edited: [],
-                evaluated: [],
+                evaluations: [],
                 editStart: null,
                 editStop: null
             }, ()=> {
@@ -222,14 +227,38 @@ class CustomMap extends Component {
                 })
             }
         }
+
+        if (prevProps.paths.disableDropdowns !== this.props.paths.disableDropdowns) {
+            const map = this.mapRef.current.leafletElement;
+            const zoomControl = this.zoomRef.current.leafletElement;
+            if (this.props.paths.disableDropdowns) {
+                map.gestureHandling.disable();
+                map.touchZoom.disable();
+                map.doubleClickZoom.disable();
+                map.scrollWheelZoom.disable();
+                map.boxZoom.disable();
+                map.keyboard.disable();
+                zoomControl.disable();
+            } else {
+                map.gestureHandling.enable();
+                map.touchZoom.enable();
+                map.doubleClickZoom.enable();
+                map.scrollWheelZoom.enable();
+                map.boxZoom.enable();
+                map.keyboard.enable();
+                zoomControl.enable();
+            }
+        }
     }
 
     componentDidMount() {
         let that = this;
         let map = this.mapRef.current.leafletElement;
         map.on('draw:toolbarclosed', function(){
-            that.disableStreetViewAndBack(true);
             store.dispatch(setDisableDropdowns(false));
+            setTimeout(() => {
+                that.disableElements(true, true, true);
+            }, 500)
         });
 
         map.on('popupopen', function(e){
@@ -287,6 +316,7 @@ class CustomMap extends Component {
                     pathName: this.getDefaultPathName(userPaths.length),
                     userPaths: userPaths,
                     communityPaths: communityPaths,
+                    allPaths: res,
                     userPathsRefetched: true
                 });
             }
@@ -297,21 +327,44 @@ class CustomMap extends Component {
         let filtered = this.state.userPaths.filter(function(path) {
             return arr.indexOf(path._id) !== -1;
         });
+        let that = this;
         this.setState({
             ...this.state,
             selectedUserPaths: filtered,
             selectedUserPathsIds: arr
+        }, ()=> {
+            let map = that.mapRef.current;
+            let latLons = this.state.selectedUserPaths.map((path) => {
+                return path.geometry.coordinates.map((coords) => {
+                    return [coords[1], coords[0]]
+                })
+            }).flat(1);
+            if (map && latLons.length > 0) {
+                let mapLeaf= map.leafletElement;
+                mapLeaf.fitBounds(latLons);
+            }
         })
     }
 
     toggleSelectedCommunityPaths(arr) {
-        let filtered = this.state.communityPaths.filter(function(path) {
+        let filtered = this.state.allPaths.filter(function(path) {
             return arr.indexOf(path._id) !== -1;
         });
+        let that = this;
         this.setState({
             ...this.state,
-            selectedCommunityPaths: filtered,
-            selectedCommunityPathsIds: arr
+            selectedCommunityPaths: filtered
+        }, ()=> {
+            let map = that.mapRef.current;
+            let latLons = this.state.selectedCommunityPaths.map((path) => {
+                return path.geometry.coordinates.map((coords) => {
+                    return [coords[1], coords[0]]
+                })
+            }).flat(1);
+            if (map && latLons.length > 0) {
+                let mapLeaf= map.leafletElement;
+                mapLeaf.fitBounds(latLons);
+            }
         })
     }
 
@@ -360,10 +413,6 @@ class CustomMap extends Component {
                         weight: layer.feature.properties.objective,
                         color: layer.feature.properties.subjective
                     };
-                    // let coords= layer.feature.geometry.coordinates;
-                    // let middleIdx= Math.round((coords.length - 1) / 2);
-                    // let centerCoords = coords[middleIdx];
-                    // let centerMap = new L.LatLng(centerCoords[1], centerCoords[0]);
                     layer.setStyle(geojsonPolyOptions);
                     /* That shows our selected GeoJSON data!!!! */
                     leafletFG.addLayer(layer);
@@ -377,7 +426,6 @@ class CustomMap extends Component {
             });
 
     }
-
 
     async getLocationName(latLng, zoom) {
         const geocoder = Geocoder.nominatim();
@@ -463,9 +511,11 @@ class CustomMap extends Component {
                         currentPath: null,
                         currentPoly: null,
                         pathName: null,
+                        pathDescription: null,
                         objective: defaultObjectiveValue,
                         subjective: defaultSubjectiveValue,
-                        userPathsRefetched: false
+                        userPathsRefetched: false,
+                        evaluations: []
                     }, () => {
                         this.arrangePaths();
                         this._editableFG.leafletElement.clearLayers();
@@ -490,7 +540,7 @@ class CustomMap extends Component {
                         objective: defaultObjectiveValue,
                         subjective: defaultSubjectiveValue,
                         edited: [],
-                        evaluated: [],
+                        evaluations: [],
                         editStart: null,
                         editStop: null,
                         objectiveChanged: false,
@@ -555,10 +605,12 @@ class CustomMap extends Component {
         }
     }
 
-    disableStreetViewAndBack(enable) {
+    disableElements(enableStreetViewAndBack, enableEditBtn, enableEraseBtn) {
         this.setState({
             ...this.state,
-            disableStreetViewAndBack: !enable
+            disableStreetViewAndBack: !enableStreetViewAndBack,
+            disableEditBtn: !enableEditBtn,
+            disableEraseBtn: !enableEraseBtn
         })
     }
 
@@ -586,19 +638,6 @@ class CustomMap extends Component {
 
             this.props.setDrawEnd(moment(new Date()));
         }
-
-
-        // if (this.state.currentPath) {
-        //     let path = this.state.currentPath;
-        //     layer.feature = {};
-        //     layer.feature.properties = {};
-        //     layer.feature.properties.objective = this.state.objective;
-        //     layer.feature.properties.subjective = this.state.subjective;
-        //     layer.feature._id = path._id;
-        //     layer.feature.edited = path.edited;
-        //     layer.feature.userId = path.userId;
-        //     layer.feature.created = path.created;
-        // }
 
         let geoJSON = layer.toGeoJSON();
 
@@ -643,7 +682,7 @@ class CustomMap extends Component {
         this.setState({
             editStart: moment(new Date())
         }, ()=> {
-            this.disableStreetViewAndBack();
+            this.disableElements(false, true, false);
             store.dispatch(setDisableSave(true));
             store.dispatch(setDisableDropdowns(true));
         })
@@ -693,6 +732,7 @@ class CustomMap extends Component {
             canGoBack: false,
             currentPoly: currentPoly,
             disableStreetViewAndBack: false,
+            disableEraseBtn: false,
             currentPath: pathRes,
             editStop: moment(new Date())
         }), ()=> {
@@ -722,7 +762,7 @@ class CustomMap extends Component {
 
     _onDeleteStart = (e) => {
         console.log('_onDeleteStart', e);
-        this.disableStreetViewAndBack();
+        this.disableElements(false, false, true);
         store.dispatch(setDisableSave(true));
     };
 
@@ -776,7 +816,7 @@ class CustomMap extends Component {
                 subjectiveCopy: null,
                 objectiveCopy: null,
                 edited: [],
-                evaluated: [],
+                evaluations: [],
                 editStart: null,
                 editStop: null
             }
@@ -994,16 +1034,19 @@ class CustomMap extends Component {
                     showDeleteModal={this.showDeleteModal}
                     canGoBack={this.state.canGoBack}
                     disableBack={this.state.disableStreetViewAndBack}
+                    disableEdit={this.state.disableEditBtn}
+                    disableErase={this.state.disableEraseBtn}
                     selectedPathName={this.state.selectedPathName}
                     selectedPathDecription={this.state.selectedPathDescription}
                     pathName={this.state.pathName}
                     pathDescription={this.state.pathDescription}
-                    disableStreetViewAndBack = {this.disableStreetViewAndBack}
+                    disableStreetViewAndBack = {this.disableElements}
                     existingPoly={this.state.currentPoly !== null}
                     modifyStyles={this.modifyStyles}
                     pathObjective={this.state.objective}
                     pathSubjective={this.state.subjective}
                     changeCenter={this.changeCenter}
+                    addOrEditProcedure = {this.state.editingPath || this.state.addingPath}
                 />
                 <Map
                     ref={this.mapRef}
@@ -1026,7 +1069,7 @@ class CustomMap extends Component {
                                maxZoom={mapLayers[this.state.tileLayer].maxZoom}
                                attribution={mapLayers[this.state.tileLayer].attribution}
                     />
-                    <ZoomControl position='topright'/>
+                    <ZoomControl ref={this.zoomRef} position='topright' />
                     <PanoStreetView
                         disableStreetView = {this.state.disableStreetViewAndBack}
                         streetView={this.state.streetView}
@@ -1071,7 +1114,7 @@ class CustomMap extends Component {
                             onDeleted={this._onDeleted}
                         />
                     </FeatureGroup>
-                    {this.state.userPaths.length > 0 && this.state.selectedUserPaths.length > 0 ?
+                    {this.state.selectedUserPaths.length > 0 ?
                         this.state.selectedUserPaths.map((path)=> {
                                return <React.Fragment key={path._id + '-fragment-user'}>
                                {path.geometry.type === "LineString" ?
@@ -1117,14 +1160,16 @@ class CustomMap extends Component {
                                </React.Fragment>
                         })
                         :null}
-                    {this.state.communityPaths.length > 0 && this.state.selectedCommunityPaths.length > 0 ?
+                    {this.state.selectedCommunityPaths.length > 0 ?
                         this.state.selectedCommunityPaths.map((path)=> {
                             return <React.Fragment key={path._id + '-fragment-comm'}>
                                 {path.geometry.type === "LineString" ?
                                     <React.Fragment>
                                         <GeoJSON  key={path._id}
                                                   data={path}
-                                                  style={{weight: path.properties.objective, color: path.properties.subjective }}>
+                                                  style={{weight: path.properties.objective,
+                                                      color: path.properties.subjective,
+                                                      opacity: path.userId !== this.props.auth.user.id ? '0.55' : '1'}}>
                                             <Popup>
                                                 <PathInfoTooltip distance={path.distance}
                                                                  area={path.area}
@@ -1163,6 +1208,7 @@ class CustomMap extends Component {
                         })
                         :null}
                 </Map>
+                <SpeechBubble />
                 <EditPathModal showEditModal={this.showEditModal}
                                showEditPathModal={this.state.showEditPathModal}
                                discardAll = {this.discardAll}
@@ -1190,5 +1236,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { loginUser, updateUser }
+    { loginUser }
 )(CustomMap);

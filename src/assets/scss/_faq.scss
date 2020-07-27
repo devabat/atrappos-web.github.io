@@ -1,0 +1,68 @@
+.faq {
+  @include flex-box(column, flex-start, flex-start);
+  &__item {
+    margin-top: 10px;
+  }
+  &__title {
+    @include font-mixin(600, 12px, 1.2);
+    color: $shark;
+  }
+  &__big-title {
+    @include font-mixin(700, 14px, 1.2);
+    color: $shark;
+  }
+  &__text {
+    @include font-mixin(400, 12px, 1.4);
+    color: $shark;
+    text-align: justify;
+    p {
+      margin: 5px 0 !important;
+    }
+    b {
+      &.important-notice {
+        color: $crimson;
+      }
+    }
+  }
+  &__tltp {
+    color: $eastern-blue;
+    font-size: 1.2rem;
+    margin: 0 0 -3px 5px;
+    vertical-align: sub;
+  }
+  ol {
+    margin: 5px 0 !important;
+  }
+}
+
+/* Sprite */
+
+.bg-faq {
+  background-image: url('../img/faq/faq_sprite.png');
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bg-unicorn_cat {
+  width: 262px; height: 225px;
+  background-position:  -10px -10px;
+  margin-top: 15px;
+}
+
+.bg-map_draw_toolbar {
+  width: 200px; height: 33px;
+  background-position:  -10px -255px;
+  margin-top: 5px;
+}
+
+.bg-map_erase_toolbar {
+  width: 197px; height: 37px;
+  background-position:  -292px -10px;
+  margin-top: 5px;
+}
+
+.bg-map_search {
+  width: 39px; height: 41px;
+  background-position:  -292px -67px;
+  margin-top: 8px;
+}

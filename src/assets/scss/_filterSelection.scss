@@ -1,0 +1,130 @@
+.filter-paths {
+  &.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+  &--container {
+    margin-top: 40px;
+    > label {
+      margin-bottom: 0 !important;
+    }
+    .path-actions--caption {
+      margin-bottom: 8px !important;
+      display: inline-block;
+    }
+    &__top {
+      @include flex-box(row, space-between, center);
+      width: calc(100% + 20px);
+      height: 15px;
+    }
+  }
+}
+
+.filter-result {
+  @include font-mixin(600, 12px, 1.2);
+  display: inline;
+  margin: 0 10px 12px 0;
+  color: $blue-violet;
+}
+
+
+/* RADIO */
+
+.filter-group {
+  @include flex-box(column, flex-start, flex-start);
+  margin: 5px 0 20px 0;
+  input:checked ~ .checkmark {
+    &.objective {
+      background-color: $sirocco;
+    }
+    &.subjective {
+      &.lvl-5 {
+        background-color: $malachite;
+      }
+      &.lvl-4 {
+        background-color: $dodger-blue;
+      }
+      &.lvl-3 {
+        background-color: $heliotrope;
+      }
+      &.lvl-2 {
+        background-color: $tango;
+      }
+      &.lvl-1 {
+        background-color: $torch-red;
+      }
+    }
+  }
+  .filter-container {
+    font-size: 12px;
+    line-height: 18px;
+    height: 20px;
+    width: 140px;
+    vertical-align: middle;
+    display: flex;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    .label--text {
+      margin-left: 42px;
+      white-space: nowrap;
+      text-transform: capitalize;
+    }
+    .checkmark {
+      left: 20px;
+    }
+
+    .preview {
+      position: absolute;
+      left: 0;
+      &.objective {
+        transform: rotate(45deg);
+        margin-top: 4px;
+        height: 15px;
+        width: 15px;
+      }
+      &.subjective {
+        width: 10px;
+        height: 15px;
+      }
+    }
+
+    &:hover input:not(:checked) ~ .checkmark {
+      background-color: $radio-bg-hover;
+    }
+    input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      width: 18px;
+      height: 18px;
+      margin: 0;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 0;
+      height: 15px;
+      width: 15px;
+      background-color: $radio-bg;
+    }
+    input:checked ~ .checkmark:after {
+      display: block;
+    }
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+      background: $white;
+      top: 5px !important;
+      left: 5px !important;
+      width: 5px !important;
+      height: 5px !important;
+    }
+  }
+}

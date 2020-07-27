@@ -2,7 +2,7 @@
 /* The container */
 .cbox-container {
   display: inline-flex;
-  align-items: flex-end;
+  align-items: center;
   position: relative;
   padding-left: 25px;
   margin: 0 0 12px -10px;
@@ -17,10 +17,13 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
+  &.userpaths {
+    margin-top: 15px !important;
+  }
 }
 
 .cbox-lbl-txt {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   margin-left: 5px;
 }
@@ -39,8 +42,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 18px;
-  width: 18px;
+  height: 16px;
+  width: 16px;
   background-color: $white;
   border: 1px solid $java;
   border-radius: 3px;
@@ -71,10 +74,18 @@
 
 /* Style the checkmark/indicator */
 .cbox-container .cbox-checkmark:after {
-  left: 2px;
-  top: -2px;
+  left: 1px;
+  top: -3px;
   font-weight: 600;
   color: $java;
   content: '\2713';
   font-size: 16px;
+  line-height: 22px;
+}
+
+.cbox--include-user {
+  color: $java;
+}
+.cbox--wrapper {
+  @include flex-box(column, flex-start, stretch);
 }

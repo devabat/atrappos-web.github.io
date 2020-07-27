@@ -89,6 +89,24 @@
   }
 }
 
+.email-disclaimer {
+  &__label {
+    color: $crimson;
+    font-weight: 800;
+    margin-left: 2px;
+    &--bottom {
+      color: $crimson;
+      font-weight: 800;
+      margin-right: 5px;
+      font-size: 1rem !important;
+    }
+  }
+  &__text {
+    margin-top: 35px;
+    @include font-mixin(500, 14px, 1.2);
+  }
+}
+
 .welcome-user {
   color: $curious-blue;
   margin-bottom: 20px;

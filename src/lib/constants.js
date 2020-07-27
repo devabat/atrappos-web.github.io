@@ -4,8 +4,6 @@ import blueMarker from '../assets/img/markers/marker-icon-blue.png';
 import violetMarker from '../assets/img/markers/marker-icon-violet.png';
 import orangeMarker from '../assets/img/markers/marker-icon-orange.png';
 import redMarker from '../assets/img/markers/marker-icon-red.png';
-import goldMarker from '../assets/img/markers/marker-icon-gold.png';
-
 import shadow from '../assets/img/markers/marker-shadow.png';
 
 
@@ -54,15 +52,6 @@ export const redMarkerIcon = new L.Icon({
     shadowSize: [41, 41]
 });
 
-export const goldMarkerIcon = new L.Icon({
-    iconUrl: goldMarker,
-    shadowUrl: shadow,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-
 
 export const mapElementsTooltipContent = {
     polyline: "In order to create a new path, the map should be adequately zoomed. Moreover, you cannot create a new path if the map contains an unsaved one. Save or erase any existing path to create a new one.",
@@ -70,13 +59,15 @@ export const mapElementsTooltipContent = {
     shape: "With this button you can edit the shape of your path. It can be used at an already created path.",
     erase: "Erase the path and clear the map.",
     description: "Type any kind of information that is worth mentioning. It will be added to the path as a description tag (available in the path's pop-up info).",
+    walkability: "Your criteria can be: The ease of access, lack of obstacles, safety, comfort, relaxation, refreshment, quality of the path and how engaging is the physical activity.",
+    landscape: "Your criteria can be: The beauty of the landscape, the feelings that the sights are provoking, how happy makes you the built-in environment and how eye-friendly is the view.",
     save: "A path can be saved when it has a submitted evaluation and no blank name."
 };
 
 
 export const objectiveTypes =
     [
-    {label:'Select walking evaluation', value: '3', className: 'lvl-def'},
+    {label:'Select walking evaluation', value: '5', className: 'lvl-def'},
     {label:'Excellent', value: '10', className: 'lvl-5'},
     {label:'Very Good', value: '8', className: 'lvl-4'},
     {label:'Decent', value: '6', className: 'lvl-3'},
@@ -84,19 +75,19 @@ export const objectiveTypes =
     {label:'Poor', value: '2', className: 'lvl-1'}];
 
 export const subjectiveTypes = [
-    {label:'Select visual evaluation', value: '#7D98A1', className: 'lvl-def'},
+    {label:'Select visual evaluation', value: '#42f5e0', className: 'lvl-def'},
     {label: 'Magnificent', value: '#12C416', className: 'lvl-5'},
-    {label: 'Very pleasing', value: '#3D7AF5', className: 'lvl-4'},
+    {label: 'Very Pleasing', value: '#3D7AF5', className: 'lvl-4'},
     {label: 'Fair', value: '#B054F8', className: 'lvl-3'},
-    {label: 'Not so pleasing', value: '#F27418', className: 'lvl-2'},
+    {label: 'Not so Pleasing', value: '#F27418', className: 'lvl-2'},
     {label: 'Unpleasant', value: '#F41A1A', className:'lvl-1'},
     ];
 
-export const defaultSubjectiveValue = '#7D98A1';
+export const defaultSubjectiveValue = '#42f5e0';
 
-export const defaultObjectiveValue = '3';
+export const defaultObjectiveValue = '5';
 
-export const filterLbl = 'Filter Selections';
+export const filterLbl = 'Filter selections';
 
 
 export const objectiveTypesKeyValue = {
@@ -107,11 +98,19 @@ export const objectiveTypesKeyValue = {
     '2': {label:'Poor', className: 'lvl-1'}
 }
 
+export const objectiveTypesSortLabels = [
+    'Excellent', 'Very Good', 'Decent', 'Not so Good', 'Poor'
+]
+
+export const subjectiveTypesSortLabels = [
+    'Magnificent', 'Very Pleasing', 'Fair', 'Not so Pleasing', 'Unpleasant'
+]
+
 export const subjectiveTypesKeyValue = {
     '#12C416': {label: 'Magnificent', className: 'lvl-5', marker: greenMarkerIcon},
-    '#3D7AF5': {label: 'Very pleasing', className: 'lvl-4', marker: blueMarkerIcon},
+    '#3D7AF5': {label: 'Very Pleasing', className: 'lvl-4', marker: blueMarkerIcon},
     '#B054F8': {label: 'Fair', className: 'lvl-3', marker: violetMarkerIcon},
-    '#F27418': {label: 'Not so pleasing', className: 'lvl-2', marker: orangeMarkerIcon},
+    '#F27418': {label: 'Not so Pleasing', className: 'lvl-2', marker: orangeMarkerIcon},
     '#F41A1A': {label: 'Unpleasant', className:'lvl-1', marker: redMarkerIcon}
 };
 
@@ -241,5 +240,112 @@ export const mapLayers =
         layer: 'https://tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png',
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }
+};
+
+export const drawLocalOpts = {
+    draw: {
+        toolbar: {
+            actions: {
+                title: "Cancel drawing",
+                text: "Cancel"
+            },
+            finish: {
+                title: "Finish drawing",
+                text: "Finish"
+            },
+            undo: {
+                title: "Delete last point drawn",
+                text: "Delete last point"
+            },
+            buttons: {
+                polyline: "Draw a polyline",
+                polygon: "Draw a polygon",
+                rectangle: "Draw a rectangle",
+                circle: "Draw a circle",
+                marker: "Draw a marker",
+                circlemarker: "Draw a circlemarker"
+            }
+        },
+        handlers: {
+            circle: {
+                tooltip: {
+                    start: "Click and drag to draw circle."
+                },
+                radius: "Radius"
+            },
+            circlemarker: {
+                tooltip: {
+                    start: "Click map to place circle marker."
+                }
+            },
+            marker: {
+                tooltip: {
+                    start: "Click map to place marker."
+                }
+            },
+            polygon: {
+                tooltip: {
+                    start: "Click to start drawing shape.",
+                    cont: "Click to continue drawing shape.",
+                    end: "Click first point to close this shape."
+                }
+            },
+            polyline: {
+                error: "<strong>Error:</strong> shape edges cannot cross!",
+                tooltip: {
+                    start: "Click to start drawing line.",
+                    cont: "Click to continue drawing line.",
+                    end: "Click last point to finish line."
+                }
+            },
+            rectangle: {
+                tooltip: {
+                    start: "Click and drag to draw rectangle."
+                }
+            },
+            simpleshape: {
+                tooltip: {
+                    end: "Release mouse to finish drawing."
+                }
+            }
+        }
+    },
+    edit: {
+        toolbar: {
+            actions: {
+                save: {
+                    title: "Finish changes",
+                    text: "Finish"
+                },
+                cancel: {
+                    title: "Cancel editing, discards all changes",
+                    text: "Cancel"
+                },
+                clearAll: {
+                    title: "Clear all layers",
+                    text: "Clear All"
+                }
+            },
+            buttons: {
+                edit: "Edit layers",
+                editDisabled: "No layers to edit",
+                remove: "Delete layers",
+                removeDisabled: "No layers to delete"
+            }
+        },
+        handlers: {
+            edit: {
+                tooltip: {
+                    text: "Drag handles to edit features.",
+                    subtext: "Click cancel to undo changes."
+                }
+            },
+            remove: {
+                tooltip: {
+                    text: "Click on a feature to remove."
+                }
+            }
+        }
     }
 };

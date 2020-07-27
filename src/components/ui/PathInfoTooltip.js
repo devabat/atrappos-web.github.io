@@ -36,7 +36,7 @@ export const PathInfoTooltip = (props) => {
             <span className='path-list__tltp--info'>
                 <span className='path-list__tltp--info__label'>{"Distance: "}</span>
                 <span className="path-list__sel--label">
-                        {distance ? (distance / 1000).toFixed(2) + ' km': '-'}
+                        {distance ? (distance / 1000).toFixed(2) + ' km': '0 km'}
                 </span>
             </span>
            <span className='path-list__tltp--info'>

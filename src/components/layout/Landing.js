@@ -56,7 +56,7 @@ class Landing extends Component {
                     <div className="col-md-12  landing--col">
                       <div className="welcome-user">
                         {"Hello, " + this.props.auth.user.name + "!"}<br/>
-                        Welcome to Atr<b>app</b>os Web, a simple crowdsourced map making app!
+                        Welcome to Atr<b>app</b>os Web, a simple crowdsourcing mapmaking app!
                       </div>
                     </div>
                     <div className="col-md-6  landing--col">

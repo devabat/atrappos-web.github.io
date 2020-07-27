@@ -8,14 +8,14 @@ import {
     faExclamationTriangle,
     faUsers,
     faMap,
-    faQuestionCircle, faTools, faSearchLocation
+    faQuestionCircle, faTools
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Button, Tab, Tabs} from "react-bootstrap";
 import AddEditPath from "./AddEditPath";
 import {useSelector} from "react-redux";
 import store from "../../store";
-import {setIsEmptyPath, setIsEmptyName, setSelectedTab} from "../../actions/actions";
+import {setIsEmptyPath, setIsEmptyName, setSelectedTab} from "../../actions/pathsActions";
 import MapSelection from "./MapSelection";
 import {Logo} from "../layout/Logo";
 import CommunityPaths from "./CommunityPaths";
@@ -25,6 +25,8 @@ import {LoaderPin} from "../ui/LoaderPin";
 import {FilterPaths} from "./FilterPaths";
 import {filterLbl} from "../../lib/constants";
 import {sendGaEvent} from "../../lib/utils";
+import {KPIs} from "../ui/KPIs";
+import {FaqContent} from "../ui/FaqContent";
 
 
 const PathsActions =(props)=> {
@@ -45,12 +47,15 @@ const PathsActions =(props)=> {
       pathDescription,
       canGoBack,
       disableBack,
+      disableEdit,
+      disableErase,
       disableStreetViewAndBack,
       existingPoly,
       modifyStyles,
       pathObjective,
       pathSubjective,
-      changeCenter
+      changeCenter,
+      addOrEditProcedure
   } = props;
   const [pathAction, setPathAction] = useState({show: false, action: ""});
   const [visibleUserPaths, setVisibleUserPaths] = useState([]);
@@ -58,20 +63,25 @@ const PathsActions =(props)=> {
   const [viewState, setViewState] = useState({});
   const [showAllPaths, setShowAllPaths] = useState(false);
   const [filterPaths, setFilterPaths] = useState(false);
-  const [filterObjective, setFilterObjective] = useState(null);
-  const [filterSubjective, setFilterSubjective] = useState(null);
+  const [filterObjective, setFilterObjective] = useState([]);
+  const [filterSubjective, setFilterSubjective] = useState([]);
   const [filterResult, setFilterResult] = useState(null);
   const [disableBackHdr, setDisableBackHdr] = useState(false);
+  const [disableEditBtn, setDisableEditBtn] = useState(false);
+  const [disableEraseBtn, setDisableEraseBtn] = useState(false);
+  const [addOrEdit, setAddOrEdit] = useState(false);
   const [animation, setAnimation] = useState(false);
+  const [resetCommunityPaths, setResetCommunityPaths] = useState(false);
 
   const showAllPathsRef = useRef(null);
+
+  const filterPathsRef = useRef(null);
 
   const pathsReducer = useSelector(state => state.paths);
 
   const mapLayersReducer = useSelector(state => state.mapLayers);
 
   const ids = currUserPaths.map((path) => path._id);
-
 
 
   const returnBack = (dummy, canGoBack) => {
@@ -101,14 +111,26 @@ const PathsActions =(props)=> {
     }, [disableBack]);
 
     useEffect(()=> {
+        setDisableEditBtn(disableEdit)
+    }, [disableEdit]);
+
+    useEffect(()=> {
+        setDisableEraseBtn(disableErase)
+    }, [disableErase]);
+
+    useEffect(()=> {
         setCurrUserPaths(userPaths)
     }, [userPaths]);
 
     useEffect(()=> {
-        if (filterObjective && filterSubjective && currUserPaths) {
+        setAddOrEdit(addOrEditProcedure)
+    }, [addOrEditProcedure]);
+
+    useEffect(()=> {
+        if ((filterObjective || filterSubjective) && currUserPaths) {
             let filterArr =  currUserPaths.filter((path, idx) => {
-                return path.properties.objective === filterObjective &&
-                    path.properties.subjective === filterSubjective;
+                return  filterObjective.includes(path.properties.objective) ||
+                    filterSubjective.includes(path.properties.subjective);
             });
             let filterRes = filterArr.map((path)=> {
                 return path._id;
@@ -121,12 +143,11 @@ const PathsActions =(props)=> {
 
     useEffect(()=> {
         if (!filterPaths) {
-            setFilterObjective(null);
-            setFilterSubjective(null);
+            setFilterObjective([]);
+            setFilterSubjective([]);
             setFilterResult(null);
         }
     }, [filterPaths]);
-
 
     const toggleVisibleUserPaths = (id) => {
         let idx = visibleUserPaths.indexOf(id);
@@ -141,7 +162,7 @@ const PathsActions =(props)=> {
         if (filterPaths) {
             setFilterPaths(false);
         }
-        if (visibleUserPaths.length === currUserPaths.length) {
+        if (visibleUserPaths.length === currUserPaths.length && visibleUserPaths.length > 0) {
             setShowAllPaths(true);
         }
         setViewState(prevState => ({ ...prevState, [id]: !prevState[id] }));
@@ -152,6 +173,9 @@ const PathsActions =(props)=> {
 
     const toggleShowAllPaths= (e) => {
         let checked = e.target.checked;
+        if (checked && filterPaths) {
+            filterPathsRef.current.click();
+        }
         setShowAllPaths(checked);
         if (checked) {
             setVisibleUserPaths(ids);
@@ -168,22 +192,21 @@ const PathsActions =(props)=> {
     };
 
     const showFilteredPaths = (arr) => {
-        setVisibleUserPaths(arr);
-        toggleSelectedPaths(arr);
-        ids.forEach((id)=> {
-            setViewState(prevState => ({ ...prevState, [id]: arr.includes(id)}));
-        });
-        if (arr.length === currUserPaths.length) {
-            setShowAllPaths(true);
+        if (arr.length > 0) {
+            setVisibleUserPaths(arr);
+            toggleSelectedPaths(arr);
+            ids.forEach((id) => {
+                setViewState(prevState => ({...prevState, [id]: arr.includes(id)}));
+            });
         }
     }
 
     const toggleFilterPaths = (e) => {
         let checked = e.target.checked;
-        setFilterPaths(checked);
         if (showAllPaths && checked) {
             showAllPathsRef.current.click();
         }
+        setFilterPaths(checked);
         if (!checked) {
             setVisibleUserPaths([]);
             toggleSelectedPaths([]);
@@ -196,11 +219,21 @@ const PathsActions =(props)=> {
         }
     }
 
-    const applyFilters = (type, val) => {
+    const applyFilters = (type, target) => {
+        const checked = target.checked;
+        const val = target.value;
         if (type === 'objective' ) {
-            setFilterObjective(val);
+            if (checked) {
+                setFilterObjective([ ...filterObjective, val]);
+            } else {
+                setFilterObjective(filterObjective.filter((e)=>(e !== val)))
+            }
         } else {
-            setFilterSubjective(val);
+            if (checked) {
+                setFilterSubjective([ ...filterSubjective, val]);
+            } else {
+                setFilterSubjective(filterSubjective.filter((e)=>(e !== val)))
+            }
         }
     }
 
@@ -211,27 +244,23 @@ const PathsActions =(props)=> {
         store.dispatch(setIsEmptyPath(false))
     };
 
-    const togglePathZoom = (id) => {
-        let centerCoords;
-        let filteredForZoom = currUserPaths.filter(function(path) {
-            return path._id === id;
-        });
-
-        let zoomPath = filteredForZoom[0];
-        if (zoomPath) {
-            let coords= zoomPath.geometry.coordinates;
-            let middleIdx= Math.round((coords.length - 1) / 2);
-            centerCoords = coords[middleIdx];
-            changeCenter(centerCoords);
-        }
-    }
-
     return (
       <main id="main-menu">
         <Logo logoCls="logo--map" />
         <Tabs defaultActiveKey={mapLayersReducer.selectedTab} activeKey={mapLayersReducer.selectedTab} id="path-actions-tabs" onSelect={k => {
             if (k !== 'paths') {
                 setAnimation(false);
+                setVisibleUserPaths([]);
+                toggleSelectedPaths([]);
+                setViewState({});
+                if (showAllPaths) {
+                    showAllPathsRef.current.click();
+                }
+            }
+            if (k !== 'community') {
+                setResetCommunityPaths(true)
+            } else {
+                setResetCommunityPaths(false)
             }
             if (k === 'faq') {
                 sendGaEvent({category: 'show-faq', action: 'user-action'});
@@ -257,6 +286,8 @@ const PathsActions =(props)=> {
                                  canGoBack={canGoBack}
                                  beforeAnimation={beforeAnimation}
                                  disableBack={disableBackHdr}
+                                 disableEditBtn={disableEditBtn}
+                                 disableEraseBtn={disableEraseBtn}
                                  disableStreetViewAndBack={disableStreetViewAndBack}
                                  existingPoly={existingPoly}
                                  modifyStyles={modifyStyles}
@@ -278,18 +309,35 @@ const PathsActions =(props)=> {
                                 </Button>
                             </div>
                             <React.Fragment>
-                                <label className={"cbox-container" + (currUserPaths.length <= 0 || filterPaths ? " disable-list": "")}>
+                                <h4 className="path-list__header">
+                                    <span>
+                                        Dashboard
+                                    </span>
+                                </h4>
+                                <KPIs userPaths={userPaths} />
+                                <h4 className="path-list__header">
+                                    <span>
+                                        List
+                                    </span>
+                                </h4>
+                                <label className={"cbox-container userpaths" + (currUserPaths.length <= 0 ? " disable-list": "")}>
                                     <span className="cbox-lbl-txt">
-                                        Show all my paths
+                                        Show all in the map
                                     </span>
                                     <input type="checkbox"
-                                           disabled={currUserPaths.length <= 0 || filterPaths}
+                                           disabled={currUserPaths.length <= 0}
                                            checked={showAllPaths}
                                            ref={showAllPathsRef}
                                            onChange={toggleShowAllPaths}
                                     />
-                                <span className="cbox-checkmark"/>
+                                    <span className="cbox-checkmark"/>
                                 </label>
+                                {!filterPaths && visibleUserPaths !== null ?
+                                    <div className="select-result__wrapper">
+                                        <div className="select-result">
+                                            {"Selected paths: " + visibleUserPaths.length}
+                                        </div>
+                                    </div>:null}
                                 <div className="path-list--outer">
                                     <div className="path-list--wrapper">
                                         <div className="path-list--container">
@@ -298,12 +346,14 @@ const PathsActions =(props)=> {
                                             {
                                                 currUserPaths.map((path, idx)=> {
                                                     return <div className="path-list--item"
+                                                                title={path.name}
                                                                 key={path._id}
                                                                 id={path._id}>
                                                         <div className='path-list__info--wrapper'>
                                                             <InfoTooltip id={path._id + '-tltp'} placement="bottom"
                                                                          gaEvent="user-path-list-info"
                                                                          pathDetails={true}
+                                                                         pathName={path.name}
                                                                          content={<PathInfoTooltip subj={path.properties.subjective}
                                                                                                    obj={path.properties.objective}
                                                                                                    distance={path.distance}
@@ -313,28 +363,15 @@ const PathsActions =(props)=> {
                                                                                                    type='path-list'
                                                                          />}
                                                                          clsName='path-list-userpaths--row' />
-                                                            <span className="path-list--item_name">
-                                                                {path.name}
-                                                            </span>
                                                         </div>
                                                         <div className="path-list--btns">
-                                                            <Button className="path-list--item_show"
+                                                            <Button className={"path-list--item_show" + (viewState[path._id] ? " selected" : "") }
                                                                     title={viewState[path._id] ? "Hide from map" : "Show on map"}
                                                                     onClick={()=> {
                                                                         toggleVisibleUserPaths(path._id)
                                                                     }}>
                                                                 <i>
                                                                     <FontAwesomeIcon icon={viewState[path._id] ? faEyeSlash : faEye}/>
-                                                                </i>
-                                                            </Button>
-                                                            <Button className={"path-list--item_zoom"}
-                                                                    disabled={!viewState[path._id]}
-                                                                    title="Focus on map"
-                                                                    onClick={()=> {
-                                                                        togglePathZoom(path._id)
-                                                                    }}>
-                                                                <i>
-                                                                    <FontAwesomeIcon icon={faSearchLocation}/>
                                                                 </i>
                                                             </Button>
                                                             <Button className="path-list--item_edit"
@@ -385,11 +422,12 @@ const PathsActions =(props)=> {
                                                 </span>
                                                 <input type="checkbox"
                                                        checked={filterPaths}
+                                                       ref={filterPathsRef}
                                                        onChange={toggleFilterPaths}
                                                 />
                                                 <span className="cbox-checkmark"/>
                                             </label>
-                                            {filterResult !== null ?
+                                            {filterPaths && filterResult !== null ?
                                                 <div className="filter-result">
                                                     {"Paths found: " + filterResult}
                                                 </div>:null}
@@ -399,6 +437,7 @@ const PathsActions =(props)=> {
                                             applyFilters={applyFilters}
                                             filterObjective={filterObjective}
                                             filterSubjective={filterSubjective}
+                                            category='user-paths'
                                         />
                                     </div>
                                 :null}
@@ -407,18 +446,20 @@ const PathsActions =(props)=> {
                     </div>
                 }
             </Tab>
-            <Tab eventKey="community" title={
+            <Tab eventKey="community" disabled={addOrEdit} title={
                 <React.Fragment>
                     <span className="tab-icon"><FontAwesomeIcon icon={faUsers} /></span>
                     <span className="tab-title">COMMUNITY</span>
                 </React.Fragment>}>
                 <CommunityPaths paths={communityPaths}
+                                uPaths={userPaths}
                                 toggleSelectedCommunityPaths={toggleSelectedCommunityPaths}
                                 changeCenter={changeCenter}
+                                resetCommunityPaths={resetCommunityPaths}
                 />
             </Tab>
 
-            <Tab eventKey="map" title={
+            <Tab eventKey="map" disabled={addOrEdit} title={
                 <React.Fragment>
                     <span className="tab-icon"><FontAwesomeIcon icon={faMap} /></span>
                     <span className="tab-title">MAP</span>
@@ -427,14 +468,14 @@ const PathsActions =(props)=> {
                 <MapSelection/>
                 </div>
             </Tab>
-            <Tab eventKey="faq" title={
+            <Tab eventKey="faq" disabled={addOrEdit} title={
                 <React.Fragment>
                     <span className="tab-icon"><FontAwesomeIcon icon={faQuestionCircle} /></span>
                     <span className="tab-title">FAQ</span>
                 </React.Fragment>}>
                 <h2>FAQ</h2>
 
-              TODO FAQ
+                  <FaqContent />
             </Tab>
         </Tabs>
       </main>

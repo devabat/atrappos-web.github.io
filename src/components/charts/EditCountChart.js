@@ -2,34 +2,41 @@ import React, { Component } from 'react';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4themes_material from "@amcharts/amcharts4/themes/material";
 import chartService from "../../services/chartService";
+import {connect} from "react-redux";
+import {LoaderChart} from "../ui/LoaderChart";
 
+// Themes begin
 am4core.useTheme(am4themes_animated);
 
 class EditCountChart extends Component {
     componentDidMount() {
         let chart = am4core.create("edit-count-chart-div", am4charts.XYChart);
-
+        chart.colors.step = 6;
         chart.paddingRight = 20;
 
         chartService.getEditCountChart().then((res) => {
-            console.log(res)
            chart.data = res;
         });
+
+        // Legend
+        chart.legend = new am4charts.Legend();
+        chart.legend.position="top";
+        chart.legend.paddingBottom = 15;
+        chart.legend.labels.template.maxWidth = 200;
 
         // Create axes
         let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
         categoryAxis.dataFields.category = "drawType";
         categoryAxis.renderer.grid.template.location = 0;
 
-
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.title.text = "Number of Path Edits";
         valueAxis.title.fontWeight = 700;
-        valueAxis.renderer.minWidth = 35;
-        valueAxis.renderer.inside = true;
-        valueAxis.renderer.labels.template.disabled = true;
+        valueAxis.renderer.minWidth = 10;
         valueAxis.min = 0;
+        valueAxis.maxPrecision = 0;
 
         // Create series
         function createSeries(field, name) {
@@ -53,8 +60,10 @@ class EditCountChart extends Component {
         // Add label
         let labelBullet = series.bullets.push(new am4charts.LabelBullet());
         labelBullet.label.text = "{valueY}";
+        labelBullet.label.fill = am4core.color("#ffffff");
         labelBullet.locationY = 0.5;
         labelBullet.label.hideOversized = true;
+
 
         return series;
     }
@@ -62,6 +71,10 @@ class EditCountChart extends Component {
         createSeries("afterSave", "After Save");
 
         this.chart = chart;
+    }
+
+    componentWillMount() {
+        am4core.unuseTheme(am4themes_material);
     }
 
     componentWillUnmount() {
@@ -72,9 +85,19 @@ class EditCountChart extends Component {
 
     render() {
         return (
-            <div id="edit-count-chart-div" style={{ width: "100%", height: "500px" }}></div>
+            <React.Fragment>
+                {this.props.charts.editCountChart && this.props.charts.editCountChart.fetching ?
+                    <LoaderChart />
+                    :null}
+                <div id="edit-count-chart-div" style={{ width: "100%", height: "500px" }}></div>
+            </React.Fragment>
         );
     }
 }
 
-export default EditCountChart;
+
+const mapStateToProps = state => ({
+    charts: state.charts
+});
+
+export default connect(mapStateToProps)(EditCountChart);

@@ -15,11 +15,12 @@ export const registerUser = (userData, history) => dispatch => {
             dispatch(setRegisterLoading(false));
         })
         .catch(err => {
+            dispatch(setRegisterLoading(false));
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
             });
-            dispatch(setRegisterLoading(false));
+
         });
 };
 
@@ -65,11 +66,12 @@ export const changePassword = (userData, history) => dispatch => {
         .catch(err =>
             {
                 console.log('RESET ERR', err)
+                dispatch(setChangePwLoading(false));
                 dispatch({
                     type: GET_ERRORS,
                     payload: err.response.data
                 });
-                dispatch(setChangePwLoading(false));
+
             }
         );
 };
@@ -106,21 +108,6 @@ export const setChangePwLoading = (loading) => {
     };
 };
 
-// Login - get user token
-export const updateUser = (name, type, newPath) => dispatch => {
-    let req = {params: {name: name, type: type, newPath: newPath}};
-    axios
-        .post(prefix + "/api/users/update", req)
-        .then(res => {
-           console.log('UPDATE RES', res)
-        })
-        .catch(err =>
-            dispatch({
-                type: GET_ERRORS,
-                payload: err.response.data
-            })
-        );
-};
 
 // Log user out
 export const logoutUser = () => dispatch => {
