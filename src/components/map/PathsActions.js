@@ -360,6 +360,7 @@ const PathsActions =(props)=> {
                                                                                                    area={path.area}
                                                                                                    name={path.name}
                                                                                                    description={path.description}
+                                                                                                   drawType={path.drawType}
                                                                                                    type='path-list'
                                                                          />}
                                                                          clsName='path-list-userpaths--row' />

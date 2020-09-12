@@ -770,7 +770,14 @@ h2 {
 
 .path-list__sel--label {
   display: block;
-  padding-left: 10px; }
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end; }
+  .path-list__sel--label i {
+    margin-right: 5px;
+    color: #19869a; }
 
 .path-list__obj--label {
   padding-left: 25px !important; }

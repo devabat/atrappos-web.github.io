@@ -7,7 +7,7 @@ export default {
     try {
       store.dispatch({type: 'GET_ALL_PATHS_PENDING'})
       const paths = await axios
-          .get(prefix + `/api/paths/desktop`)
+          .get(prefix + `/api/paths`)
           .then(res => res.data);
       store.dispatch({type: 'GET_ALL_PATHS_FULFILLED'})
       return paths || [];

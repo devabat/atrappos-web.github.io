@@ -1,12 +1,26 @@
 import React from 'react';
 import {objectiveTypesKeyValue, subjectiveTypesKeyValue} from "../../lib/constants";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faLocationArrow, faMobileAlt, faDesktop} from "@fortawesome/free-solid-svg-icons";
 
 
 export const PathInfoTooltip = (props) => {
-    const {subj, obj, distance, area, name, description, type} = props;
+    const {subj, obj, distance, area, name, description, drawType, type} = props;
 
     const objSel = obj ? objectiveTypesKeyValue[obj] : null;
     const subjSel = subj ? subjectiveTypesKeyValue[subj] : null;
+
+    const getDrawTypeLabel = (drawType) => {
+        switch(drawType) {
+            case 'phone':
+                return ['Via Mobile', faMobileAlt];
+            case 'location':
+                return ['Via GPS', faLocationArrow];
+            default:
+                return ['Via Desktop', faDesktop]
+        }
+    }
+
     return (
         <div className={'path-list__tltp--content ' + type }>
            {type === 'path-list' && objSel && subjSel ?
@@ -53,6 +67,15 @@ export const PathInfoTooltip = (props) => {
                     </span>
                 </span>
            :null}
+            {drawType ?
+                <span className='path-list__tltp--info'>
+                    <span className='path-list__tltp--info__label'>{"Created: "}</span>
+                    <span className="path-list__sel--label">
+                        <i><FontAwesomeIcon icon={getDrawTypeLabel(drawType)[1]}/></i>
+                        <span>{getDrawTypeLabel(drawType)[0]}</span>
+                    </span>
+            </span>
+                :null}
        </div>
     );
 };

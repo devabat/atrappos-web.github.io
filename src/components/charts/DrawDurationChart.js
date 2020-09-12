@@ -40,6 +40,13 @@ class DrawDurationChart extends Component {
         series.clustered = false;
         chart.cursor = new am4charts.XYCursor();
 
+        // Add label
+        let labelBullet = series.bullets.push(new am4charts.LabelBullet());
+        labelBullet.label.text = "{valueY}min";
+        labelBullet.label.fill = am4core.color("#ffffff");
+        labelBullet.locationY = 0.5;
+
+
 
         // let scrollbarX = new am4charts.XYChartScrollbar();
         // scrollbarX.series.push(series);

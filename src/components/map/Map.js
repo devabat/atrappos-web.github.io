@@ -743,7 +743,7 @@ class CustomMap extends Component {
                     let edited = [...this.state.edited];
                     let end =  moment(this.state.editStop).format('YYYY-MM-DD HH:mm:ss');
                     let editState = this.state.addingPath ? 'beforeSave' : 'afterSave';
-                    edited.push({date: end, state: editState, duration: minutes});
+                    edited.push({date: end, state: editState, duration: minutes, device: 'desktop'});
                     this.setState({
                         edited: edited
                     }, ()=> {
@@ -1127,6 +1127,7 @@ class CustomMap extends Component {
                                                                 area={path.area}
                                                                 name={path.name}
                                                                 description={path.description}
+                                                                drawType={path.drawType}
                                                                 type='path-map'
                                                />
                                            </Popup>
@@ -1139,6 +1140,7 @@ class CustomMap extends Component {
                                                                 area={path.area}
                                                                 name={path.name}
                                                                 description={path.description}
+                                                                drawType={path.drawType}
                                                                 type='path-map'
                                                />
                                            </Popup>
@@ -1151,6 +1153,7 @@ class CustomMap extends Component {
                                                                 area={path.area}
                                                                 name={path.name}
                                                                 description={path.description}
+                                                                drawType={path.drawType}
                                                                 type='path-map'
                                                />
                                            </Popup>
@@ -1175,6 +1178,7 @@ class CustomMap extends Component {
                                                                  area={path.area}
                                                                  name={path.name}
                                                                  description={path.description}
+                                                                 drawType={path.drawType}
                                                                  type='path-map'
                                                 />
                                             </Popup>
@@ -1187,6 +1191,7 @@ class CustomMap extends Component {
                                                                  area={path.area}
                                                                  name={path.name}
                                                                  description={path.description}
+                                                                 drawType={path.drawType}
                                                                  type='path-map'
                                                 />
                                             </Popup>
@@ -1199,6 +1204,7 @@ class CustomMap extends Component {
                                                                  area={path.area}
                                                                  name={path.name}
                                                                  description={path.description}
+                                                                 drawType={path.drawType}
                                                                  type='path-map'
                                                 />
                                             </Popup>

@@ -46,6 +46,13 @@ class EditDurationChart extends Component {
         series.clustered = false;
         chart.cursor = new am4charts.XYCursor();
 
+        // Add label
+        let labelBullet = series.bullets.push(new am4charts.LabelBullet());
+        labelBullet.label.text = "{valueX}min";
+        labelBullet.label.fill = am4core.color("#ffffff");
+        labelBullet.locationX = 0.5;
+
+
         this.chart = chart;
     }
 

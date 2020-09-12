@@ -354,6 +354,11 @@
   &__sel--label {
     display: block;
     padding-left: 10px;
+    @include flex-box(row, flex-start, flex-end);
+    i {
+      margin-right: 5px;
+      color: $eastern-blue;
+    }
   }
 
   &__obj--label {
@@ -432,6 +437,7 @@
     width: calc(100% - 55px);
   }
 }
+
 
 .path-btns {
   width: 100%;
