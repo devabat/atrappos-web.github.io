@@ -116,6 +116,7 @@ class CustomMap extends Component {
             drawn: null,
             locationName: null,
             distance: null,
+            drawType: 'desktop',
             userPathsRefetched: false
         };
 
@@ -227,28 +228,28 @@ class CustomMap extends Component {
                 })
             }
         }
-
-        if (prevProps.paths.disableDropdowns !== this.props.paths.disableDropdowns) {
-            const map = this.mapRef.current.leafletElement;
-            const zoomControl = this.zoomRef.current.leafletElement;
-            if (this.props.paths.disableDropdowns) {
-                map.gestureHandling.disable();
-                map.touchZoom.disable();
-                map.doubleClickZoom.disable();
-                map.scrollWheelZoom.disable();
-                map.boxZoom.disable();
-                map.keyboard.disable();
-                zoomControl.disable();
-            } else {
-                map.gestureHandling.enable();
-                map.touchZoom.enable();
-                map.doubleClickZoom.enable();
-                map.scrollWheelZoom.enable();
-                map.boxZoom.enable();
-                map.keyboard.enable();
-                zoomControl.enable();
-            }
-        }
+        // The disabling of map's zoom during draw/edit has been commented out, due to users' feedback
+        // if (prevProps.paths.disableDropdowns !== this.props.paths.disableDropdowns) {
+        //     const map = this.mapRef.current.leafletElement;
+        //     const zoomControl = this.zoomRef.current.leafletElement;
+        //     if (this.props.paths.disableDropdowns) {
+        //         map.gestureHandling.disable();
+        //         map.touchZoom.disable();
+        //         map.doubleClickZoom.disable();
+        //         map.scrollWheelZoom.disable();
+        //         map.boxZoom.disable();
+        //         map.keyboard.disable();
+        //         zoomControl.disable();
+        //     } else {
+        //         map.gestureHandling.enable();
+        //         map.touchZoom.enable();
+        //         map.doubleClickZoom.enable();
+        //         map.scrollWheelZoom.enable();
+        //         map.boxZoom.enable();
+        //         map.keyboard.enable();
+        //         zoomControl.enable();
+        //     }
+        // }
     }
 
     componentDidMount() {
@@ -396,6 +397,7 @@ class CustomMap extends Component {
                 subjectiveCopy: pathData.properties.subjective,
                 edited: JSON.parse(JSON.stringify(pathData.edited)),
                 drawn: pathData.drawn,
+                drawType: pathData.drawType,
                 evaluations: JSON.parse(JSON.stringify(pathData.evaluations))
             }
         }, ()=> {
@@ -479,7 +481,6 @@ class CustomMap extends Component {
             let currPath = prevState.currentPath;
             if (currPath) {
                 currPath.type = "Feature";
-                currPath.drawType = "desktop";
                 currPath.edited = prevState.edited;
                 currPath.evaluations = prevState.evaluations
                 if (prevState.pathName) {
@@ -488,6 +489,10 @@ class CustomMap extends Component {
                 if (prevState.pathDescription) {
                     currPath.description = prevState.pathDescription;
                 }
+                if (prevState.drawType) {
+                    currPath.drawType = prevState.drawType;
+                }
+
                 if (prevState.drawn) {
                     currPath.drawn = prevState.drawn;
                 }
@@ -515,6 +520,7 @@ class CustomMap extends Component {
                         objective: defaultObjectiveValue,
                         subjective: defaultSubjectiveValue,
                         userPathsRefetched: false,
+                        drawType: 'desktop',
                         evaluations: []
                     }, () => {
                         this.arrangePaths();
@@ -545,7 +551,8 @@ class CustomMap extends Component {
                         editStop: null,
                         objectiveChanged: false,
                         subjectiveChanged: false,
-                        userPathsRefetched: false
+                        userPathsRefetched: false,
+                        drawType: 'desktop'
                     }, () => {
                         this.arrangePaths();
                         this._editableFG.leafletElement.clearLayers();

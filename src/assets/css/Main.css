@@ -790,7 +790,7 @@ h2 {
     height: 14px;
     width: 10px;
     transform: rotate(45deg);
-    margin: 2px 0 0px -18px; }
+    margin: 2px 0 3px -18px; }
 
 .path-list__header {
   margin: 20px 0 0 0;
@@ -809,7 +809,7 @@ h2 {
   .path-list__subj--label.subjective:before {
     height: 12px;
     width: 12px;
-    margin: 3px 0 0px -17px; }
+    margin: 3px 0 6px -17px; }
 
 .path-list__subheader {
   padding: 10px 0 5px 10px;
@@ -1141,7 +1141,7 @@ h2 {
   .speech-bubble__wrapper {
     position: absolute;
     right: 5px;
-    top: 130px;
+    top: 140px;
     z-index: 999; }
   .speech-bubble:after {
     content: '';
