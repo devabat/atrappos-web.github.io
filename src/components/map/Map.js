@@ -14,8 +14,8 @@ import Geocoder from 'leaflet-control-geocoder';
 import PanoStreetView from './PanoStreetView.js';
 import ReactLeafletSearch from "react-leaflet-search";
 // eslint-disable-next-line
-import { GestureHandling } from "leaflet-gesture-handling";
-import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css";
+// import { GestureHandling } from "leaflet-gesture-handling";
+// import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css";
 import { EditControl } from "react-leaflet-draw";
 import PropTypes from "prop-types";
 import cloneDeep from 'lodash/cloneDeep';
@@ -228,28 +228,6 @@ class CustomMap extends Component {
                 })
             }
         }
-        // The disabling of map's zoom during draw/edit has been commented out, due to users' feedback
-        // if (prevProps.paths.disableDropdowns !== this.props.paths.disableDropdowns) {
-        //     const map = this.mapRef.current.leafletElement;
-        //     const zoomControl = this.zoomRef.current.leafletElement;
-        //     if (this.props.paths.disableDropdowns) {
-        //         map.gestureHandling.disable();
-        //         map.touchZoom.disable();
-        //         map.doubleClickZoom.disable();
-        //         map.scrollWheelZoom.disable();
-        //         map.boxZoom.disable();
-        //         map.keyboard.disable();
-        //         zoomControl.disable();
-        //     } else {
-        //         map.gestureHandling.enable();
-        //         map.touchZoom.enable();
-        //         map.doubleClickZoom.enable();
-        //         map.scrollWheelZoom.enable();
-        //         map.boxZoom.enable();
-        //         map.keyboard.enable();
-        //         zoomControl.enable();
-        //     }
-        // }
     }
 
     componentDidMount() {
@@ -1064,7 +1042,7 @@ class CustomMap extends Component {
                     maxBounds={bounds}
                     maxZoom={mapLayers[this.state.tileLayer].maxZoom ? mapLayers[this.state.tileLayer].maxZoom : 19}
                     minZoom={8}
-                    gestureHandling={true}
+                    // gestureHandling={true}
                     onClick={e =>{
                         if (e.type === "click") {
                             this.setState({ streetView: e })}

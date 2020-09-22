@@ -192,13 +192,11 @@ const PathsActions =(props)=> {
     };
 
     const showFilteredPaths = (arr) => {
-        if (arr.length > 0) {
-            setVisibleUserPaths(arr);
-            toggleSelectedPaths(arr);
-            ids.forEach((id) => {
-                setViewState(prevState => ({...prevState, [id]: arr.includes(id)}));
-            });
-        }
+        setVisibleUserPaths(arr);
+        toggleSelectedPaths(arr);
+        ids.forEach((id) => {
+            setViewState(prevState => ({...prevState, [id]: arr.includes(id)}));
+        });
     }
 
     const toggleFilterPaths = (e) => {
@@ -248,7 +246,8 @@ const PathsActions =(props)=> {
       <main id="main-menu">
         <Logo logoCls="logo--map" />
         <Tabs defaultActiveKey={mapLayersReducer.selectedTab} activeKey={mapLayersReducer.selectedTab} id="path-actions-tabs" onSelect={k => {
-            if (k !== 'paths') {
+            if (k === 'community') {
+                // Reset user's paths selection and map view when community tab is selected
                 setAnimation(false);
                 setVisibleUserPaths([]);
                 toggleSelectedPaths([]);
@@ -256,10 +255,15 @@ const PathsActions =(props)=> {
                 if (showAllPaths) {
                     showAllPathsRef.current.click();
                 }
+                if (filterPaths) {
+                    filterPathsRef.current.click();
+                }
             }
-            if (k !== 'community') {
+            if (k === 'paths') {
+                // Reset community's paths selection and map view when 'MY PATHS' tab is selected
                 setResetCommunityPaths(true)
             } else {
+                // Keep the variable alive to detect changes
                 setResetCommunityPaths(false)
             }
             if (k === 'faq') {

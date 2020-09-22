@@ -128,6 +128,9 @@ function CommunityPaths(props) {
             if (showAllPaths) {
                 showAllPathsRef.current.click();
             }
+            if (filterPaths) {
+                filterPathsRef.current.click();
+            }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [resetCommunityPaths]);
@@ -181,13 +184,11 @@ function CommunityPaths(props) {
     };
 
     const showFilteredPaths = (arr) => {
-        if (arr.length > 0) {
-            setVisibleCommunityPaths(arr);
-            toggleSelectedCommunityPaths(arr);
-            ids.forEach((id) => {
-                setViewState(prevState => ({...prevState, [id]: arr.includes(id)}));
-            });
-        }
+        setVisibleCommunityPaths(arr);
+        toggleSelectedCommunityPaths(arr);
+        ids.forEach((id) => {
+            setViewState(prevState => ({...prevState, [id]: arr.includes(id)}));
+        });
     }
 
     const toggleFilterPaths = (e) => {
